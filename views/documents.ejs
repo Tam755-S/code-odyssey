@@ -10,10 +10,10 @@
 
 <div class="quests-list">
 
-    <% if (quests.length === 0) { %>
+    <% if (!locals.quests || quests.length === 0) { %>
         <div class="empty-text">ไม่มีเอกสารที่ทำผิดพลาดในขณะนี้</div>
     <% } else { %>
-        <% quests.forEach(q => { %>
+        <% (locals.quests || []).forEach(q => { %>
             <div class="quest-card failed">
                 <div class="quest-left">
                     <div class="avatar-box">
@@ -27,7 +27,7 @@
 
                 <div class="quest-right">
                     <div class="coin-box">
-                        <img src="/css/coin.png">
+                        <img src="/css/coin.PNG">
                         <span><%= q.reward %></span>
                     </div>
 
