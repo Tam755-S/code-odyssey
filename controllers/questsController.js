@@ -62,7 +62,7 @@ module.exports.getDocuments = async (req, res) => {
             user.failedQuests.includes(q.id) && !user.completedQuests.includes(q.id)
         );
 
-        res.render("Documents", { quests: docsQuests, user });
+        res.render("documents", { quests: docsQuests, user });
     } catch (err) {
         console.error("Documents Error:", err);
         res.redirect('/main');
