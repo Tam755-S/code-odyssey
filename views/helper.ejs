@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="/css/helper.css">
+<div class="carousel-container">
+    <div class="carousel-slides" id="helperSlides">
+        <!-- slide 1 -->
+        <div class="slide active">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/helper.PNG" alt="Helper" class="slide-image-large">
+                    <span class="slide-title">Helper</span>
+                </div>
+                <div class="slide-text">
+                    <p>ตัวช่วยสำหรับการเล่นเกม ใช้สำหรับดูคำแนะนำแต่ละไอคอนย้อนหลังได้ตลอดเวลา</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- slide 2 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/book.PNG" alt="Learning Icon" class="slide-image-large">
+                    <span class="slide-title">Learning</span>
+                </div>
+                <div class="slide-text">
+                    <p>แหล่งเรียนรู้บทเรียนหลักสำหรับการฝึกเขียน Python เบื้องต้นทั้งหมด 7 บท</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- slide 3 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/inbox.PNG" alt="Inbox" class="slide-image-large">
+                    <span class="slide-title">Inbox</span>
+                </div>
+                <div class="slide-text">
+                    <p>กล่องรับภารกิจทั่วไป แบ่งเป็น 3 ประเภท: A (จำ), B (คำนวณ), C (แก้ปัญหา) สังเกตได้จากวงเล็บท้ายชื่อลูกค้า เช่น น้องบี(A) เพื่อเลือกฝึกทักษะที่ต้องการและรับรางวัล!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- slide 4 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/company.PNG" alt="Company chat" class="slide-image-large">
+                    <span class="slide-title">Company chat</span>
+                </div>
+                <div class="slide-text">
+                    <p>ภารกิจด่วนจะปรากฏที่นี่เมื่อทำเควสปกติใน INBOX ครบทุก 5 ข้อ มีเวลาจำกัดและให้โบนัสสูงหรือจะเลือกปฏิเสธก็ได้</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- slide 5 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="css/mistake.PNG" alt="Documents" class="slide-image-large">
+                    <span class="slide-title">Documents</span>
+                </div>
+                <div class="slide-text">
+                    <p>คลังงานเก็บภารกิจที่ยังทำไม่สำเร็จหรือกดพักไว้ เพื่อกลับมาแก้ไขและส่งใหม่เพื่อรับรางวัล</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- slide 7 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/shop.PNG" alt="Shop" class="slide-image-large">
+                    <span class="slide-title">Shop</span>
+                </div>
+                <div class="slide-text">
+                    <p>ร้านค้าไอเทมตกแต่ง ใช้เหรียญรางวัลที่สะสมได้จากการทำภารกิจ มาแลกซื้อวอลเปเปอร์และไอคอนสวย ๆ เพื่อปรับแต่งหน้าจอส่วนตัวของคุณ</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- slide 8 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div>
+                    <img src="/css/set.PNG" alt="Setting" class="slide-image-large">
+                    <span class="slide-title">Setting</span>
+                </div>
+                <div class="slide-text">
+                    <p>เมนูที่ใช้สำหรับตรวจสอบสถิติการเรียนรู้และเปลี่ยนรูปโปรไฟล์ของคุณ</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end carousel-slides -->
+
+   <button class="carousel-btn prev" onclick="moveSlide(-1)"> &#60; </button> 
+   <button class="carousel-btn next" onclick="moveSlide(1)"> &#62; </button> 
+   <div class="carousel-dots" id="carouselDots"></div> </div> 
+   <script src="/js/helper.js"></script> 
+   <%- include('music-player') %>
+</body> 
+</html>

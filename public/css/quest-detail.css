@@ -1,0 +1,123 @@
+/* ==== Layout หลัก ==== */
+body {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+    font-family: "Press Start 2P", monospace, sans-serif; /* ฟอนต์เกมพิกเซล */
+    color: #fff;
+}
+
+.quest-detail-container {
+    width: 750px;
+    margin: 30px auto;
+    display: flex;
+  
+}
+
+/* ==== พาเนลซ้าย ==== */
+.left-panel {
+    width: 220px;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.avatar-large {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid #444;
+    background: #222;
+}
+
+/* ปุ่ม Accept */
+.btn-accept {
+    display: block;
+    margin: 15px auto;
+    width: 140px;
+    padding: 12px 0;
+    background: #32cd32;
+    border: 3px solid #1f7f1f;
+    border-radius: 6px;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 3px #0c3;
+    transition: 0.1s;
+}
+
+.btn-accept:hover {
+    background: #4df34d;
+}
+
+.btn-accept:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px #0c3;
+}
+
+/* กล่องรางวัล */
+.reward-box {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 3px solid #333;
+}
+
+.reward-box img {
+    width: 28px;
+    margin-right: 8px;
+}
+
+.reward-box span {
+    font-size: 20px;
+}
+
+/* ==== พาเนลขวา ==== */
+.right-panel {
+    flex: 1;
+    background: #111;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 3px solid #333;
+}
+
+.right-panel h3 {
+    margin: 0 0 10px;
+    font-size: 23px;
+}
+
+.right-panel h4 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    color: #ddd;
+}
+
+.right-panel p {
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* --- กล่องแสดงไฟล์ (File Box) --- */
+.file-box {
+    display: inline-flex;
+    align-items: center;
+    background-color: #333333;
+    border: 2px solid #000;
+    padding: 5px 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #88FF88; /* สีเขียวสำหรับการเน้นชื่อไฟล์ */
+    box-shadow: 1px 1px 0 #000;
+}
+
+.file-box img {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    image-rendering: pixelated;
+}

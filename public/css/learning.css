@@ -1,0 +1,415 @@
+/* --- Learning Layout (รวมใน main.css) --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+/* 1. Layout หลัก: แบ่ง 2 คอลัมน์ */
+.learning-layout {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0; /* พื้นหลังโดยรวม */
+    overflow: hidden;
+}
+
+/* 2. Sidebar บทเรียน */
+.lesson-sidebar {
+    width: 250px;
+    min-width: 250px;
+    background-color: #e0e0e0; /* สีพื้นหลังสว่างกว่าเล็กน้อย */
+    padding: 15px 0 15px 15px;
+    border-right: 3px solid #000000; /* เส้นขอบหนา */
+    overflow-y: auto; /* ให้เลื่อนได้เฉพาะเมนู */
+}
+
+.lesson-header {
+    font-weight: bold;
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.header-divider {
+    border: none;
+    border-top: 2px solid #000000;
+    margin: 5px 0 15px 0;
+}
+
+.lesson-group {
+    margin-bottom: 10px;
+    cursor: default;
+}
+
+.group-title {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.lesson-list {
+    list-style: none;
+    padding-left: 10px;
+    font-size: 0.9em;
+}
+
+.lesson-item {
+    padding: 3px 0;
+    color: #666;
+    cursor: pointer;
+}
+
+.lesson-item.active {
+    font-weight: bold;
+    color: #000080; /* สีน้ำเงินเข้ม */
+}
+
+
+/* 3. Main Content */
+.lesson-main {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; /* ให้เลื่อนได้เฉพาะเนื้อหาหลัก */
+    background-color: #ffffff;
+    color: #333;
+    font-size: 1em;
+}
+
+.lesson-main h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* 4. Code Block Styles (เลียนแบบหน้าจอคอมพิวเตอร์) */
+.code-block {
+    display: flex;
+    margin: 20px 0;
+    background-color: #1a1a1a; /* พื้นหลังโค้ดเข้ม */
+    border: 3px solid #000000;
+    font-family: monospace; /* ใช้ฟอนต์ monospace สำหรับโค้ด */
+    font-size: 0.9em;
+}
+
+.code-input, .code-output {
+    padding: 10px;
+    color: #ffffff;
+}
+
+.code-input {
+    width: 50%;
+    background-color: #1a1a1a;
+    border-right: 1px solid #444; /* เส้นแบ่ง Input/Output */
+}
+
+.code-output {
+    width: 50%;
+    background-color: #3a3a3a; /* พื้นหลัง Output สว่างกว่าเล็กน้อย */
+    color: #00ff00; /* ตัวอักษรสีเขียว (Terminal Look) */
+}
+
+/* ==================================================== */
+/* --- LEARNING LAYOUT & SIDEBAR STYLES --- */
+/* ==================================================== */
+
+/* 1. Layout หลัก: แบ่ง 2 คอลัมน์ */
+.learning-layout {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0; /* พื้นหลังโดยรวมสว่าง */
+    overflow: hidden;
+}
+
+/* 2. Sidebar บทเรียน (ซ้าย) */
+.lesson-sidebar {
+    width: 280px; /* ขยายให้กว้างขึ้นเล็กน้อยเพื่อรองรับข้อความภาษาไทย */
+    min-width: 280px;
+    background-color: #e0e0e0; 
+    padding: 15px 0 15px 15px;
+    border-right: 3px solid #000000; /* เส้นขอบหนาแบบ Retro */
+    overflow-y: auto; /* ให้เลื่อนได้เฉพาะเมนู */
+    box-sizing: border-box;
+}
+
+.lesson-header {
+    font-weight: 700;
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 5px;
+    color: #000080; /* สีน้ำเงินเข้ม */
+}
+
+.header-divider {
+    border: none;
+    border-top: 2px solid #000000;
+    margin: 5px 0 15px 0;
+}
+
+.lesson-group {
+    margin-bottom: 15px;
+    cursor: default;
+}
+
+.group-title {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
+    padding-left: 5px;
+    transition: background-color 0.1s;
+}
+
+.lesson-list {
+    list-style: none;
+    padding-left: 10px;
+    font-size: 0.95em;
+    margin-top: 5px;
+}
+
+.lesson-item {
+    padding: 3px 5px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.1s, background-color 0.1s;
+    border-radius: 3px;
+}
+
+.lesson-item:hover, .group-title:hover {
+    background-color: #d0d0d0; /* ไฮไลท์เมื่อชี้ */
+}
+
+.lesson-item.active {
+    font-weight: 700;
+    color: #000000; /* สีดำเน้น */
+    background-color: #c0c0c0;
+    border: 1px solid #000000; /* กรอบเล็กน้อย */
+}
+
+
+/* ==================================================== */
+/* --- MAIN CONTENT & TYPOGRAPHY STYLES --- */
+/* ==================================================== */
+
+.lesson-main {
+    flex-grow: 1;
+    padding: 20px 30px;
+    overflow-y: auto; 
+    background-color: #ffffff; /* พื้นหลังเนื้อหาเป็นสีขาว */
+    color: #333;
+    font-size: 1em;
+}
+
+.lesson-main h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    border-bottom: 2px solid #ccc; /* เส้นใต้หัวข้อ */
+    padding-bottom: 5px;
+    color: #000080;
+}
+
+.lesson-main h3 {
+    font-size: 1.4em;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.lesson-main h4 {
+    font-size: 1.1em;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.lesson-main p, .lesson-main ul {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.lesson-main ul {
+    padding-left: 20px;
+}
+
+
+/* ==================================================== */
+/* --- CODE BLOCK STYLES (Retro Terminal Look) --- */
+/* ==================================================== */
+
+.code-block {
+    display: flex;
+    margin: 20px 0;
+    background-color: #1a1a1a; 
+    border: 3px solid #000000; /* ขอบหนา */
+    box-shadow: 4px 4px 0px #00000090; /* เงาด้านนอก */
+    font-family: monospace; /* ใช้ฟอนต์ monospace สำหรับโค้ด */
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.code-block.single-line {
+    display: block; /* สำหรับตัวอย่างที่ไม่มี output คู่ */
+}
+
+.code-input, .code-output {
+    padding: 10px;
+    color: #ffffff;
+    white-space: pre-wrap; /* รักษา Whitespace และขึ้นบรรทัดใหม่ */
+}
+
+.code-input {
+    width: 50%;
+    background-color: #1a1a1a;
+    border-right: 2px solid #333; /* เส้นแบ่ง Input/Output */
+    color: #ffff00; /* สีเหลือง/ฟ้า สำหรับโค้ด Input */
+}
+
+.code-block.single-line .code-input {
+    width: 100%;
+    border-right: none;
+    color: #ffff00;
+}
+
+.code-output {
+    width: 50%;
+    background-color: #3a3a3a; /* พื้นหลัง Output สว่างกว่าเล็กน้อย */
+    color: #00ff00; /* สีเขียวสว่าง (Terminal Output) */
+}
+
+.code-block.single-line .code-output {
+    display: none; /* ซ่อน Output ถ้าเป็น Single-line */
+}
+
+/* Arrow/Separator (สำหรับตัวอย่างที่มีการเปรียบเทียบ Input/Output) */
+.code-block::before {
+    content: ''; 
+    /* สามารถใส่ไอคอนลูกศรใน HTML แทนได้ */
+}
+
+/* --- Global Font Reset (ใช้ Chakra Petch และ Noto Sans Thai Looped) --- */
+/* (ตรวจสอบให้แน่ใจว่าได้ลิงก์ Chakra Petch ใน HTML แล้ว) */
+.lesson-main, .lesson-sidebar {
+    font-family: 'Chakra Petch', 'Noto Sans Thai Looped', sans-serif;
+    color: #333;
+}
+
+
+.lesson-header {
+    font-weight: 700;
+    font-size: 1.3em;
+    color: #000080; /* สีน้ำเงินเข้ม */
+}
+
+/* 2. Main Content & Typography */
+.lesson-main {
+    /* ... (โค้ดเดิม) ... */
+    font-size: 1.05em; /* ขยายขนาดฟอนต์เล็กน้อย */
+}
+
+.lesson-main h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #000080;
+    border-bottom: 3px solid #000080; /* เส้นใต้ที่หนาและเน้น */
+    padding-bottom: 8px;
+    margin-top: 40px;
+}
+
+.lesson-main h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #000;
+}
+
+/* 3. Code Block Styles (ปรับสีโค้ดให้น่าอ่าน) */
+.code-block {
+    /* ... (โค้ดเดิม) ... */
+    background-color: #282c34; /* สีเข้มแบบ VS Code/Terminal */
+    border: 1px solid #000;
+    box-shadow: none; /* ลบเงาหนาออกเพื่อให้ดูสะอาดขึ้น */
+    border-radius: 5px;
+    font-family: Consolas, monospace; /* ใช้ฟอนต์สำหรับโค้ดที่อ่านง่าย */
+}
+
+.code-input {
+    color: #61afef; /* สีฟ้าอ่อนสำหรับ Input */
+}
+
+.code-output {
+    background-color: #3e4451; /* พื้นหลัง Output สว่างขึ้น */
+    color: #98c379; /* สีเขียวอ่อนสำหรับ Output */
+}
+
+/* --- Table Styles --- */
+.lesson-main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95em;
+}
+
+.lesson-main th, .lesson-main td {
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.lesson-main th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+    color: #000;
+}
+
+/* ใน main.css */
+
+.code-block {
+    /* ... โค้ดเดิม ... */
+    
+    /* **สำคัญ:** สั่งให้โค้ดบล็อกสามารถ Wrap ได้ หรือจัดการ Overflow ภายในตัวมันเอง */
+    min-width: 0; 
+    word-wrap: break-word; 
+    
+    /* ถ้ายังเกิด Scrollbar ให้เพิ่ม overflow-x: auto ใน code-block */
+    /* overflow-x: auto; */
+}
+
+/* ถ้าใช้ flexbox ใน code-block ต้องให้ input/output หดตัวด้วย */
+.code-input, .code-output {
+    min-width: 0;
+    overflow-x: auto;
+    /* ... โค้ดอื่นๆ ... */
+}
+
+/* --- MEDIA QUERY: เมื่อหน้าต่างย่อเล็กกว่า 600px --- */
+@media (max-width: 600px) {
+    
+    /* 1. เปลี่ยน Layout เป็น 1 คอลัมน์ (เรียงซ้อนกัน) */
+    .learning-layout {
+        flex-direction: column; /* Sidebar จะอยู่ด้านบน Content */
+        overflow-y: auto; /* อนุญาตให้ Scrollbar หลักเกิดขึ้นใน Pop-up */
+    }
+
+    /* 2. Sidebar: ให้ใช้ความกว้างเต็ม (100%) และจัดการ Scroll ได้ */
+    .lesson-sidebar {
+        width: 100%;
+        max-width: none; /* ยกเลิก Max-width */
+        height: 250px; /* ให้ Sidebar มีความสูงจำกัด */
+        border-right: none;
+        border-bottom: 3px solid #000000; /* สร้างเส้นแบ่งด้านล่างแทน */
+    }
+    
+    /* 3. Main Content: ให้ใช้ความกว้างเต็ม (100%) */
+    .lesson-main {
+        width: 100%;
+        overflow-y: auto; /* ส่วนนี้ยังคงต้องมี Scrollbar ของตัวเอง */
+        padding: 15px; /* ปรับ Padding ให้เหมาะสมกับจอเล็ก */
+    }
+}

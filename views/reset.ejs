@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password - Code Odyssey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>RESET</h1>
+        <p style="font-size: 0.6em; line-height: 2; margin-bottom: 30px; color: #fffa6e;">
+            SET NEW PASSWORD FOR:<br><%= email %>
+        </p>
+
+        <% if (error) { %>
+            <div style="color: #ff4444; font-size: 0.7em; margin-bottom: 20px;"><%= error %></div>
+        <% } %>
+
+        <form action="/user/reset" method="POST">
+    <input type="hidden" name="email" value="<%= email %>">
+
+    <div class="input-group">
+        <label>6-DIGIT CODE</label>
+        <div class="input-wrapper">
+            <input type="text" name="resetCode" placeholder="ENTER CODE" maxlength="6" required>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>NEW PASSWORD</label>
+        <div class="input-wrapper">
+            <input type="password" name="newPassword" placeholder="NEW PASSWORD" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-main">UPDATE PASSWORD</button>
+</form>
+    </div>
+</body>
+</html>

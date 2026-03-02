@@ -1,0 +1,69 @@
+/* ตกแต่งการ์ดเพิ่มเติม */
+.verify-card {
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 40px;
+}
+
+.subtitle {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    color: #00e5ff;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* ช่องกรอก OTP */
+.otp-input {
+    letter-spacing: 15px; /* เว้นระยะตัวเลขให้ห่างกัน */
+    text-align: center;
+    font-size: 24px !important;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #00e5ff;
+}
+
+/* กล่องแจ้งเตือน */
+.alert-box {
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid #ff4b2b;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    color: #ff8a8a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* ปุ่มส่งรหัสใหม่ */
+.resend-link {
+    background: none;
+    border: none;
+    color: #ffcf00;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 9px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.resend-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #ffcf00;
+}
+
+.back-link {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #fff;
+}

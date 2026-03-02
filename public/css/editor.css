@@ -1,0 +1,507 @@
+/* ===== RESET ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== FULL SCREEN ===== */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: monospace;
+}
+
+/* ===== CONTAINER ===== */
+.editor-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* ===== SPLIT VIEW ===== */
+.code-output-split {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== MONACO EDITOR ===== */
+#editor {
+    flex: 1;
+    border-right: 2px solid #ffffff;
+}
+
+/* ===== OUTPUT CONSOLE ===== */
+.output-console {
+    flex: 1;
+    background: #000;
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#output-area {
+    flex: 1;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+/* ===== OUTPUT STATES ===== */
+#output-area.error {
+    color: #ff4444;
+}
+
+#output-area.success {
+    color: #00ff00;
+}
+
+/* ===== FLOATING CONTROLS ===== */
+.in-editor-controls {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* RUN */
+.btn-run-text {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    color: #00ff00;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.btn-run-text::before {
+    content: "► ";
+    font-size: 12px;
+}
+
+/* SEND */
+.btn-send {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #32cd32;
+    color: #000;
+    border: 3px solid #000;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #1f7f1f;
+    pointer-events: auto;
+}
+
+.btn-send:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+.editor-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== MAIN WORKSPACE ===== */
+.workspace {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== EDITOR ===== */
+#editor {
+    flex: 1;
+    border-right: 2px solid #fff;
+}
+
+/* ===== OUTPUT ===== */
+.output-console {
+    flex: 1;
+    background: #000;
+    padding: 12px;
+    color: #00ff00;
+}
+
+#output-area {
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+/* ===== OUTPUT STATES ===== */
+#output-area.error {
+    color: #ff4444;
+}
+
+#output-area.success {
+    color: #00ff00;
+}
+
+/* ===== CONTROLS (ไม่กินพื้นที่) ===== */
+.controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* RUN */
+.btn-run {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    color: #00ff00;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* SEND */
+.btn-send {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #32cd32;
+    color: #000;
+    border: 3px solid #000;
+    padding: 8px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #1f7f1f;
+    pointer-events: auto;
+}
+
+.btn-send:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+/* ===== OUTPUT CONSOLE (RIGHT PANEL) ===== */
+.output-console {
+    flex: 1;
+    background: #000;
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* สำคัญ: เพื่อให้ปุ่ม RUN และ SEND วางตำแหน่งได้ */
+    padding: 0; /* ลบ padding หลักออก */
+}
+
+/* ===== OUTPUT AREA (พื้นที่ข้อความจริง) ===== */
+#output-area {
+    flex: 1;
+    white-space: pre-wrap;
+    font-size: 14px;
+    
+    /* ⭐ แก้ปัญหาการทับซ้อน: 
+       1. เพิ่ม Padding ด้านบน เพื่อไม่ให้ทับปุ่ม RUN
+       2. เพิ่ม Padding ด้านล่าง เพื่อไม่ให้ทับปุ่ม SEND
+    */
+    padding: 30px 10px 50px 10px; 
+    margin: 0;
+    overflow-y: auto;
+}
+
+/* ===== CONTROLS (Floating Container - ไม่กินพื้นที่) ===== */
+.controls {
+    /* ใช้สำหรับวางปุ่ม SEND */
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%; /* กว้างเท่า Console */
+    height: 100%;
+    pointer-events: none; /* ทำให้สามารถคลิกทะลุไปยัง Console ได้ */
+}
+
+/* 1. ปุ่ม RUN (Text ด้านบนซ้าย) */
+.btn-run-text {
+    position: absolute;
+    top: 8px; /* ตำแหน่งด้านบน */
+    left: 10px; /* ตำแหน่งด้านซ้าย */
+    color: #00ff00;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto; /* ⭐ สำคัญ: ต้องเป็น auto เพื่อให้คลิกได้ ⭐ */
+    user-select: none;
+    font-size: 14px;
+}
+.btn-run-text::before {
+    content: "► ";
+    font-size: 10px;
+}
+
+/* 2. ปุ่ม SEND (ปุ่ม 3D Pixel Art ด้านล่างขวา) */
+.btn-send {
+    /* วางตำแหน่งโดยอ้างอิงจาก .controls (ซึ่งครอบคลุม Console) */
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #32cd32;
+    color: #000;
+    border: 3px solid #000;
+    padding: 8px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #1f7f1f;
+    pointer-events: auto; /* ⭐ สำคัญ: ต้องเป็น auto เพื่อให้คลิกได้ ⭐ */
+}
+
+.btn-send:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+/* ขยายขนาดกล่อง Modal ให้กว้างขึ้น */
+.pixel-modal {
+    background: #222;
+
+    border: 6px solid #fff; /* ขอบหนาขึ้น */
+
+    padding: 40px; /* เพิ่มพื้นที่ด้านใน */
+
+    max-width: 600px; /* ขยายความกว้าง */
+
+    width: 90%;
+
+    text-align: center;
+
+    box-shadow: 12px 12px 0 #000;
+
+    font-family: 'Press Start 2P', cursive;
+
+ 
+}
+
+/* หัวข้อ SYSTEM MESSAGE */
+#modal-title {
+    color: #ffcc00;
+    font-size: 32px; /* ขยายให้เข้ากับขนาดกล่องที่ใหญ่ขึ้น */
+    margin-bottom: 40px;
+    letter-spacing: 4px;
+    text-shadow: 4px 4px 0 #000;
+}
+
+/* เนื้อหาข้อความ (คำถาม/แจ้งเตือน) */
+#modal-message {
+    color: #fff;
+    font-size: 26px; /* ใหญ่ชัดเจนมากสำหรับอาจารย์ */
+    line-height: 1.6;
+    margin-bottom: 50px;
+    word-break: break-word;
+    max-width: 850px; /* บีบข้อความไม่ให้ชิดขอบกล่องเกินไป */
+}
+
+/* กลุ่มปุ่มกด */
+#modal-buttons {
+    display: flex;
+    gap: 30px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+/* สไตล์ปุ่มกด */
+#modal-buttons button {
+    background: #ffcc00;
+    border: 6px solid #8b6d00;
+    padding: 20px 45px; /* ปุ่มใหญ่สะใจ */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px; /* ตัวอักษรบนปุ่มใหญ่ขึ้น */
+    cursor: pointer;
+    box-shadow: 8px 8px 0 #000;
+    color: #000;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+#modal-buttons button:hover {
+    transform: scale(1.1);
+    background: #00ff00; /* เปลี่ยนเป็นสีเขียวเวลาชี้ให้ดู positive */
+    border-color: #008800;
+}
+
+#modal-buttons button:active {
+    box-shadow: 0 0 0 #000;
+    transform: translate(8px, 8px);
+}
+
+/* ปุ่มที่สอง (ปุ่ม NO) */
+#modal-buttons button:last-child:not(:first-child) {
+    background: #ff4444; /* สีแดงสำหรับปฏิเสธ */
+    border-color: #8b0000;
+    color: #fff;
+}
+
+#modal-buttons button:last-child:not(:first-child):hover {
+    background: #ff6666;
+}
+
+/* สไตล์ปุ่มไม้ขอบทองตามรูปภาพ */
+.wooden-hint-btn {
+    position: absolute;
+    top: 15px;      /* ระยะห่างจากด้านบน */
+    right: 15px;    /* ระยะห่างจากด้านขวา */
+    z-index: 100;   /* ให้ลอยทับ Editor */
+    
+    background: #444444;    /* สีเทากลาง */
+    border: 4px solid #222222; /* ขอบเทาเข้ม */
+    border-radius: 8px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;        /* ปรับขนาดเล็กน้อยให้พอดี */
+    color: #ffffff;         /* ✅ ตัวอักษรสีขาว */
+    font-weight: bold;
+    
+    /* สร้างเงาแบบ Pixel ให้ดูหนาขึ้น */
+    box-shadow: 
+        inset -4px -4px 0px #333333, /* เงาด้านใน */
+        4px 4px 0px rgba(0,0,0,0.5); /* เงานอกปุ่ม */
+    
+    transition: all 0.1s;
+}
+
+.wooden-hint-btn:hover {
+    background: #555555;     /* สว่างขึ้นเล็กน้อยตอนชี้ */
+    border-color: #333333;
+    transform: scale(1.05);
+}
+
+.wooden-hint-btn:active {
+    box-shadow: inset 4px 4px 0px #222222;
+    transform: translate(2px, 2px);
+}
+
+.hint-icon {
+    font-size: 14px;
+    filter: drop-shadow(0 0 2px #fff); /* ทำให้หลอดไฟดูเรืองแสง */
+}
+
+/* ปรับแต่ง scrollbar ของ monaco ไม่ให้ทับปุ่ม */
+.monaco-editor {
+    padding-top: 10px;
+}
+
+/*-----------------------*/
+
+/* ===== PIXEL MODAL OVERLAY ===== */
+.pixel-modal-overlay {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.85); 
+    z-index: 10000; 
+    align-items: center; 
+    justify-content: center; 
+    backdrop-filter: blur(4px);
+}
+
+/* ===== PIXEL MODAL CONTENT ===== */
+.pixel-modal {
+    background: #222;
+    border: 6px solid #fff; /* ขอบหนาขึ้นตามสไตล์ Shop */
+    padding: 50px; /* เพิ่มพื้นที่ให้กล่องดูใหญ่ขึ้น */
+    max-width: 650px; /* ขยายความกว้าง */
+    width: 90%;
+    text-align: center;
+    box-shadow: 12px 12px 0 #000;
+    font-family: 'Press Start 2P', cursive; /* ใช้ฟอนต์หลักของเกม */
+    animation: modalPop 0.2s steps(4);
+}
+
+@keyframes modalPop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* หัวข้อ SYSTEM MESSAGE */
+#modal-title {
+    color: #ffcc00;
+    font-size: 26px; /* ใหญ่ขึ้นตามขนาดกล่อง */
+    margin-bottom: 40px;
+    letter-spacing: 4px;
+    text-shadow: 4px 4px 0 #000;
+}
+
+/* เนื้อหาข้อความ (ตัวหนังสือ 30px ตามอาจารย์สั่งค่ะ) */
+#modal-message {
+    color: #fff;
+    font-size: 30px; /* ใหญ่ชัดเจนมากสำหรับอาจารย์ */
+    line-height: 1.6;
+    margin-bottom: 50px;
+    word-break: break-word;
+    font-family: 'Noto Sans Thai', sans-serif; /* ใช้ฟอนต์ไทยอ่านง่าย */
+}
+
+/* กลุ่มปุ่มกด */
+#modal-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* ===== 🏆 สไตล์ปุ่มกด "ใหญ่สะใจ" ===== */
+#modal-buttons button {
+    background: #ffcc00;
+    border: 6px solid #8b6d00;
+    padding: 20px 45px; /* ปุ่มใหญ่สะใจ */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 8px 8px 0 #000;
+    color: #000;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+/* ปุ่มตกลง / YES */
+#modal-buttons button.confirm-btn:hover {
+    transform: scale(1.1);
+    background: #00ff00;
+    border-color: #008800;
+}
+
+/* ปุ่มยกเลิก / NO */
+#modal-buttons button.cancel-btn {
+    background: #ff4444;
+    border-color: #8b0000;
+    color: #fff;
+}
+
+#modal-buttons button.cancel-btn:hover {
+    transform: scale(1.1);
+    background: #ff6666;
+}
+
+/* เอฟเฟกต์ยุบตัวตอนกด */
+#modal-buttons button:active {
+    box-shadow: 0 0 0 #000;
+    transform: translate(8px, 8px);
+}

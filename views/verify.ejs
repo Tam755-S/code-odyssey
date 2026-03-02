@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css"> <link rel="stylesheet" href="/css/verify.css"> </head>
+<body>
+    <div class="login-container verify-card">
+        <h1>OTP VERIFY</h1>
+        <p class="subtitle">Enter the 6-digit code sent to your email</p>
+
+        <% if (error) { %>
+            <div class="alert-box">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><%= error %></span>
+            </div>
+        <% } %>
+
+        <form action="/user/verify" method="POST">
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <input type="text" name="code" placeholder="000000" maxlength="6" required class="otp-input">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-main">AUTHENTICATE</button>
+        </form>
+
+        <div class="footer-section">
+            <p>Didn't receive the code?</p>
+            <form action="/user/resend-code" method="POST" style="display: inline;">
+                <button type="submit" class="resend-link">Request Recode</button>
+            </form>
+            <br><br>
+            <a href="/login" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Login</a>
+        </div>
+    </div>
+</body>
+</html>

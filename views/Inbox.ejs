@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+    <link rel="stylesheet" href="/css/quests.css">
+</head>
+<body>
+
+<div class="quests-list">
+
+    <% quests.forEach(q => { %>
+
+        <div class="quest-card">
+
+            <!-- ซ้าย -->
+            <div class="quest-left">
+
+                <div class="avatar-box">
+                    <img src="<%= q.image %>">
+                </div>
+
+                <div>
+                    <div class="sender">Sender : <%= q.sender %></div>
+                    <div class="subject">Subject : <%= q.subject %></div>
+                </div>
+
+            </div>
+
+            <!-- ขวา -->
+            <div class="quest-right">
+
+                <div class="coin-box">
+                    <img src="/css/coin.png">
+                    <span><%= q.reward %></span>
+                </div>
+
+                <a href="/quests/<%= q.id %>" class="btn-open">Open</a>
+
+
+
+            </div>
+
+        </div>
+
+    <% }) %>
+
+</div>
+<%- include('music-player') %>
+</body>
+</html>

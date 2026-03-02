@@ -1,0 +1,172 @@
+/* พื้นหลังหน้า */
+body {
+    background: #1d1d1d;
+    font-family: "Press Start 2P", monospace; /* ถ้าไม่มีฟอนต์ ใช้ pixel */
+    color: white;
+    padding: 5px;
+}
+
+/* หัวข้อ Inbox */
+.title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* กล่อง Quest ทั้งหมด */
+.quests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* การ์ดแต่ละอัน */
+.quest-card {
+    background: #0f0f0f;
+    border-radius: 18px;
+    padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ส่วนซ้าย Avatar + ข้อมูล */
+.quest-left {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* รูป Avatar */
+.avatar-box {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #333;
+}
+
+.avatar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ข้อความ Sender + Subject */
+.sender {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.subject {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+/* ส่วนขวา ปุ่ม + Reward */
+.quest-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* icon เหรียญ */
+.coin-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+}
+
+.coin-box img {
+    width: 22px;
+    height: 22px;
+}
+
+/* ปุ่ม OPEN แบบเกม */
+.btn-open {
+    background: #e5e5e5;
+    border: 4px solid #3a3a3a;
+    border-radius: 12px;
+    padding: 10px 26px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    box-shadow: 4px 4px 0 #2b2b2b;
+    transition: 0.05s;
+    margin-right: 14px;
+}
+
+.btn-open:hover {
+    transform: scale(1.05);
+}
+
+.btn-open:active {
+    box-shadow: 0px 0px 0 #2b2b2b;
+    transform: translate(4px, 4px);
+}
+
+/* ✅ ฟิกขนาดรายการ Quest ไม่ให้ล้นจอ */
+.quests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 100%; /* คุมกว้างสุดเท่ากับจอ */
+    overflow-x: hidden; /* กันการเกิด scroll แนวนอน */
+}
+
+/* ✅ ปรับแต่ง Card ให้ยืดหยุ่น */
+.quest-card {
+    background: #0f0f0f;
+    border-radius: 18px;
+    padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box; /* สำคัญ: ให้ padding นับรวมในความกว้าง */
+}
+
+/* ✅ คุมฝั่งซ้ายไม่ให้ดันฝั่งขวาตก */
+.quest-left {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex: 1; /* ให้ฝั่งซ้ายยืดหยุ่น */
+    min-width: 0; /* สำคัญมาก: เพื่อให้ text-overflow ทำงานได้ */
+}
+
+/* ✅ ฟิกขนาดตัวหนังสือ Subject และ Sender */
+.sender, .subject {
+    white-space: nowrap;      /* ห้ามขึ้นบรรทัดใหม่ */
+    overflow: hidden;         /* ซ่อนส่วนที่ล้น */
+    text-overflow: ellipsis;  /* แสดง ... เมื่อข้อความยาวเกิน */
+    max-width: 300px;         /* กำหนดความกว้างสูงสุดของข้อความ */
+}
+
+.sender {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.subject {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+/* ✅ ฝั่งขวา (ปุ่มและเหรียญ) ให้คงที่ไว้ */
+.quest-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ลด gap เล็กน้อยกันเบียด */
+    flex-shrink: 0; /* ห้ามโดนบีบขนาด */
+}
+
+/* ปรับขนาดปุ่ม Open เล็กน้อยกรณีจอแคบ */
+.btn-open {
+    padding: 10px 20px;
+    font-size: 16px;
+    white-space: nowrap;
+}

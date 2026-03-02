@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/quest-detail.css">
+</head>
+<body>
+
+<div class="quest-detail-container">
+
+    <div class="left-panel">
+        <img src="<%= quest.image %>" class="avatar-large">
+        
+        <!-- เปลี่ยนจาก form submit เป็นลิงก์ไป editor -->
+        <a href="/editor/<%= quest.id %>">
+    <button class="btn-accept">Accept</button>
+</a>
+
+
+        <div class="reward-box">
+            <img src="/css/coin.png">
+            <span><%= quest.reward %></span>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <h3>Sender: <%= quest.sender %></h3>
+        <h4>Subject: <%= quest.subject %></h4>
+
+        <p><%= quest.description %></p>
+
+        <div class="file-box">
+            <img src="/css/code.PNG">
+            <span><%= quest.sender.replace(" ","") %>web.py</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- form นี้ไม่จำเป็นแล้ว ถ้า Accept แค่ไปหน้า editor -->
+<!--
+<form id="submitForm" action="/quests/submit" method="POST">
+    <input type="hidden" name="questId" value="<%= quest.id %>">
+</form>
+-->
+<%- include('music-player') %>
+</body>
+</html>

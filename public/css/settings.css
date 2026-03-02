@@ -1,0 +1,162 @@
+/* ✅ นำเข้าฟอนต์จาก Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e; /* ปรับพื้นหลังเข้มขึ้นอีกนิดให้ดูพรีเมียม */
+    font-family: 'Chakra Petch', 'Noto Sans Thai', sans-serif;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+}
+
+.settings-main-container {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* --- ส่วนหัว Profile --- */
+.profile-header-card {
+    background: linear-gradient(145deg, #3a3a3a, #2b2b2b); /* เพิ่มมิติด้วย Gradient */
+    border-radius: 20px;
+    padding: 35px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#currentAvatar {
+    width: 140px; /* ใหญ่ขึ้นดูเด่น */
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.1); /* ขอบโปร่งแสงดูหรู */
+    object-fit: cover;
+    background: #fff;
+    transition: transform 0.3s ease;
+}
+
+#currentAvatar:hover {
+    transform: scale(1.05);
+}
+
+.edit-hint {
+    display: block;
+    font-size: 14px;
+    color: #ffcc00;
+    margin-top: 12px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.info-side h3 {
+    margin: 0 0 8px 0;
+    font-size: 32px; /* ชื่อใหญ่ชัดเจน */
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.info-side p {
+    margin: 0;
+    font-size: 18px; /* อีเมลอ่านง่าย */
+    color: #b0b0b0;
+    font-weight: 300;
+}
+
+/* ปุ่ม Logout มุมขวาบน */
+.logout-btn-mini {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Chakra Petch', sans-serif;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+}
+
+.logout-btn-mini:hover {
+    background-color: #ff3333;
+    transform: translateY(-2px);
+}
+
+/* --- ส่วนสถิติ 4 ช่อง (Grid) --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.03); /* โปร่งแสงดูสะอาด */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px); /* เอฟเฟกต์กระจกฝ้า */
+}
+
+.stat-label {
+    display: block;
+    font-size: 15px;
+    color: #ffcc00;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 28px; /* ตัวเลขเด่นๆ */
+    font-weight: 700;
+    color: #fff;
+}
+
+/* --- ส่วนตัวปรับเสียงด้านล่าง --- */
+.volume-card-full {
+    background: #2b2b2b;
+    border-radius: 20px;
+    padding: 30px 40px;
+}
+
+.volume-control-row {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+#volume {
+    flex-grow: 1;
+    height: 8px; /* ไม่หนาเกินไปดูแพง */
+    border-radius: 5px;
+    background: #444;
+    outline: none;
+    accent-color: #ffcc00; /* สีเหลืองทอง */
+    cursor: pointer;
+}
+
+#volume-value {
+    font-size: 24px;
+    font-weight: 600;
+    min-width: 70px;
+    text-align: right;
+    color: #ffcc00;
+}
+
+.vol-icon {
+    font-size: 32px;
+    opacity: 0.9;
+}

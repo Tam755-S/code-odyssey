@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop - Code Odyssey</title>
+    <link rel="stylesheet" href="/css/shop.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* --- 🎨 Modal System (Pixel Theme) --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 100000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.9); 
+            justify-content: center; 
+            align-items: center;
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: #222;
+            padding: 40px;
+            border: 6px solid #fff; 
+            width: 100%;
+            max-width: 850px; 
+            text-align: center;
+            box-shadow: 12px 12px 0px #000; 
+            animation: modalPop 0.2s steps(4);
+            font-family: 'Noto Sans Thai', sans-serif;
+            position: relative;
+            box-sizing: border-box; 
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title { 
+            font-size: 22px; 
+            margin-bottom: 30px; 
+            color: #ffcc00; 
+            font-family: 'Press Start 2P', cursive; 
+            text-transform: uppercase;
+        }
+
+        .modal-text { 
+            font-size: 30px; 
+            margin-bottom: 40px; 
+            color: #fff; 
+            line-height: 1.6;
+        }
+
+        /* --- 🗳 Slot Options (3 คอลัมน์) --- */
+        .slot-options { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .slot-item { 
+            display: flex; align-items: center; padding: 15px; 
+            background: #333; border: 3px solid #555; cursor: pointer; 
+            transition: 0.2s;
+            border-radius: 8px;
+        }
+
+        .slot-item:hover { border-color: #ffcc00; background: #444; }
+        .slot-item input[type="radio"] { width: 25px; height: 25px; margin-right: 15px; accent-color: #ffcc00; }
+        .slot-item span { font-size: 18px; color: #fff; }
+
+        /* --- 🏆 Big Buttons Style --- */
+        .modal-buttons { 
+            display: flex; 
+            gap: 25px; 
+            justify-content: center; 
+        }
+
+        .modal-buttons button {
+            background: #ffcc00;
+            border: 6px solid #8b6d00;
+            padding: 20px 45px; 
+            font-family: 'Press Start 2P', cursive;
+            font-size: 20px; 
+            cursor: pointer;
+            box-shadow: 8px 8px 0 #000;
+            color: #000;
+            font-weight: bold;
+            transition: all 0.1s;
+        }
+
+        .modal-buttons button.btn-confirm:hover {
+            transform: scale(1.1);
+            background: #00ff00;
+            border-color: #008800;
+        }
+
+        .modal-buttons button.btn-cancel {
+            background: #ff4444;
+            border-color: #8b0000;
+            color: #fff;
+        }
+
+        .modal-buttons button.btn-cancel:hover {
+            transform: scale(1.1);
+            background: #ff6666;
+            border-color: #cc0000;
+        }
+
+        .modal-buttons button:active {
+            box-shadow: 0 0 0 #000;
+            transform: translate(8px, 8px); 
+        }
+    </style>
+</head>
+<body>
+    <div class="shop-wrapper">
+        <div class="shop-sidebar">
+            <button class="category-btn active" id="btn-icon" onclick="filterCategory('icon')">Icon</button>
+            <button class="category-btn" id="btn-wallpaper" onclick="filterCategory('wallpaper')">Wallpaper</button>
+            </div>
+
+        <div class="shop-content">
+            <div id="icon-section" class="item-grid">
+                <% shopData.icons.forEach(item => { 
+                    let equippedSlot = Object.keys(user.inventory.equipped).find(key => user.inventory.equipped[key] === item.img);
+                    let isOwned = user.inventory.ownedIcons.includes(item.id);
+                %>
+                    <div class="item-card" id="card-<%= item.id %>">
+                        <p class="item-title"><%= item.name %></p>
+                        <div class="item-preview"><img src="<%= item.img %>"></div>
+                        <div class="button-group">
+                            <% if (equippedSlot) { %>
+                                <button class="btn-action already-installed" onclick="openConfirmModal('unequip', '<%= item.id %>', '<%= equippedSlot %>')">ติดตั้งแล้ว</button>
+                            <% } else if (isOwned) { %>
+                                <button class="btn-action installed" onclick="openEquipModal('<%= item.id %>')">ติดตั้ง</button>
+                            <% } else { %>
+                                <button class="btn-action price-tag" onclick="openConfirmModal('buy', '<%= item.id %>', null, '<%= item.name %>', '<%= item.price %>', 'icon')">
+                                    <img src="/css/coin.PNG" class="mini-coin" style="width:15px; vertical-align: middle; margin-right: 5px;"> <%= item.price %>
+                                </button>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <div id="wallpaper-section" class="item-grid" style="display: none;">
+                <% shopData.wallpapers.forEach(item => { 
+                    let isEquipped = (user.inventory.equipped.wallpaper === item.img);
+                    let isOwned = user.inventory.ownedWallpapers.includes(item.id);
+                %>
+                    <div class="item-card" id="card-<%= item.id %>">
+                        <p class="item-title"><%= item.name %></p>
+                        <div class="item-preview"><img src="<%= item.img %>" style="width:100%; height:auto;"></div>
+                        <div class="button-group">
+                            <% if (isEquipped) { %>
+                                <button class="btn-action already-installed" onclick="openConfirmModal('unequip', '<%= item.id %>', 'wallpaper')">ติดตั้งแล้ว</button>
+                            <% } else if (isOwned) { %>
+                                <button class="btn-action installed" onclick="handleEquip('<%= item.id %>', 'wallpaper', 'equip')">ติดตั้ง</button>
+                            <% } else { %>
+                                <button class="btn-action price-tag" onclick="openConfirmModal('buy', '<%= item.id %>', null, '<%= item.name %>', '<%= item.price %>', 'wallpaper')">
+                                    <img src="/css/coin.PNG" class="mini-coin" style="width:15px; vertical-align: middle; margin-right: 5px;"> <%= item.price %>
+                                </button>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <div id="universalModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="modal-title">SYSTEM MESSAGE</h3>
+            <p id="modalMessage" class="modal-text"></p>
+            <div id="modalButtons" class="modal-buttons"></div>
+        </div>
+    </div>
+
+    <div id="equipModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">เลือกตำแหน่งที่ต้องการติดตั้ง</h3>
+            <div class="slot-options">
+                <label class="slot-item"><input type="radio" name="slot" value="helper" required> <span>Helper</span></label>
+                <label class="slot-item"><input type="radio" name="slot" value="learning"> <span>Learning</span></label>
+                <label class="slot-item"><input type="radio" name="slot" value="inbox"> <span>Inbox</span></label>
+                <label class="slot-item"><input type="radio" name="slot" value="company"> <span>Chat</span></label>
+                <label class="slot-item"><input type="radio" name="slot" value="documents"> <span>Documents</span></label>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-confirm" onclick="submitEquip()">ตกลง</button>
+                <button type="button" class="btn-cancel" onclick="closeEquipModal()">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    let currentItemId = "";
+
+    // ✅ ฟังก์ชันอัปเดตตัวเลขเงินในหน้าเมน (Navbar)
+    function updateNavbarMoney(newAmount) {
+        // ค้นหาคลาส .coin-number ที่อยู่ในหน้าเมน
+        const coinDisplay = document.querySelector('.coin-number');
+        if (coinDisplay) {
+            coinDisplay.innerText = newAmount;
+        }
+    }
+
+    function filterCategory(cat) {
+        document.getElementById('icon-section').style.display = (cat === 'icon') ? 'grid' : 'none';
+        document.getElementById('wallpaper-section').style.display = (cat === 'wallpaper') ? 'grid' : 'none';
+        document.getElementById('btn-icon').classList.toggle('active', cat === 'icon');
+        document.getElementById('btn-wallpaper').classList.toggle('active', cat === 'wallpaper');
+        localStorage.setItem('shopCategory', cat);
+    }
+    window.onload = () => { filterCategory(localStorage.getItem('shopCategory') || 'icon'); };
+
+    function openConfirmModal(type, id, slot = null, name = "", price = "", itemType = "") {
+        const modal = document.getElementById('universalModal');
+        const title = document.getElementById('modalTitle');
+        const message = document.getElementById('modalMessage');
+        const buttons = document.getElementById('modalButtons');
+        modal.style.display = 'flex';
+        
+        if (type === 'buy') {
+            title.innerText = "BUY ITEM";
+            message.innerText = `ต้องการซื้อ ${name}\nราคา ${price} เหรียญ?`;
+            buttons.innerHTML = `<button class="btn-confirm" onclick="executeBuy('${id}', '${itemType}', '${price}')">ซื้อเลย</button><button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>`;
+        } else if (type === 'unequip') {
+            title.innerText = "UNEQUIP";
+            message.innerText = "ต้องการยกเลิกการติดตั้งใช่หรือไม่?";
+            buttons.innerHTML = `<button class="btn-confirm" onclick="handleEquip('${id}', '${slot}', 'unequip')">ตกลง</button><button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>`;
+        } else if (type === 'success') {
+            title.innerText = "SUCCESS";
+            message.innerText = name;
+            buttons.innerHTML = `<button class="btn-confirm" onclick="location.reload()">OK</button>`;
+        } else if (type === 'alert') {
+            title.innerText = "SYSTEM INFO";
+            message.innerText = name;
+            buttons.innerHTML = `<button class="btn-confirm" onclick="closeModal()">OK</button>`;
+        }
+    }
+
+    function closeModal() { document.getElementById('universalModal').style.display = 'none'; }
+    function openEquipModal(id) { currentItemId = id; document.getElementById('equipModal').style.display = 'flex'; }
+    function closeEquipModal() { document.getElementById('equipModal').style.display = 'none'; }
+
+    async function executeBuy(id, type, price) {
+        closeModal();
+        try {
+            const res = await fetch('/shop/buy', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ itemId: id, type, price }) });
+            const data = await res.json();
+            if(data.success) {
+                // ✅ อัปเดตเงินใน Navbar เรียลไทม์
+                updateNavbarMoney(data.money);
+                setTimeout(() => { openConfirmModal('success', null, null, 'ซื้อสำเร็จแล้วค่ะ!\nกรุณากด OK เพื่ออัปเดตสถานะ'); }, 100); 
+            } else {
+                setTimeout(() => { openConfirmModal('alert', null, null, data.message || 'เงินไม่พอค่ะ!'); }, 100);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function handleEquip(id, slot, action) {
+        closeModal();
+        try {
+            const res = await fetch('/shop/equip', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ itemId: id, slot, action }) });
+            const data = await res.json();
+            if(data.success) {
+                // ✅ อัปเดตเงินใน Navbar เรียลไทม์
+                updateNavbarMoney(data.money);
+                const actionBtn = document.querySelector(`#card-${id} .btn-action`);
+                let successMsg = "";
+                if (action === 'equip') {
+                    if (actionBtn) { actionBtn.innerText = "ติดตั้งแล้ว (กรุณารีเฟรช)"; actionBtn.style.fontSize = "12px"; }
+                    successMsg = "ติดตั้งเรียบร้อย!\nกรุณารีเฟรชเพื่อแสดงผล";
+                } else {
+                    if (actionBtn) { actionBtn.innerText = "ติดตั้ง (กรุณารีเฟรช)"; actionBtn.style.fontSize = "12px"; }
+                    successMsg = "ยกเลิกการติดตั้งแล้ว\nกรุณารีเฟรชเพื่อคืนค่าเริ่มต้น";
+                }
+                setTimeout(() => { openConfirmModal('success', null, null, successMsg); }, 150);
+            }
+        } catch (err) { openConfirmModal('success', null, null, 'ดำเนินการสำเร็จแล้ว'); }
+    }
+
+    function submitEquip() {
+        const selected = document.querySelector('input[name="slot"]:checked');
+        if(selected) { closeEquipModal(); handleEquip(currentItemId, selected.value, 'equip'); } 
+        else { openConfirmModal('alert', null, null, 'กรุณาเลือกช่องที่จะติดตั้งค่ะ'); }
+    }
+    </script>
+</body>
+</html>

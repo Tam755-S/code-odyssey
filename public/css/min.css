@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* หน้าพื้นหลัง */
+body {
+    width: 100vw;
+    height: 100vh;
+
+    /* ภาพพื้นหลังของคุณ */
+    background: url("Login.png") center/cover no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Chakra Petch';
+}
+
+.container {
+    text-align: center;
+}
+
+/* ชื่อเกม */
+.title {
+    font-size: 1000px;
+    color: #FFE7A3;
+    text-shadow: 6px 6px #7B592E;
+    margin-bottom: 60px;
+}
+
+/* กล่องปุ่ม */
+.buttons {
+    display: flex;
+    gap: 60px;
+    margin-top: 60px;
+    padding-top: 30%;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* ปุ่มพิกเซล */
+.pixel-btn {
+    position: relative;
+    padding: 25px 40px;
+    font-size: 60px;
+    font-weight: bold; /* ← ตัวหนา */
+
+    cursor: pointer;
+
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    display: inline-block;
+
+    border: 4px solid #222;
+    box-shadow: 6px 6px #2b2b2b;
+
+    transition: transform 0.15s ease;
+
+  
+
+    /* ← เงาเล็ก ๆ ใต้ตัวอักษร */
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.45);
+}
+
+/* สีปุ่ม */
+.green {
+    background-color: #F58436;
+}
+
+.orange {
+    background-color: #8BD450;
+}
+
+/* Hover effect */
+.pixel-btn:hover {
+    transform: translate(-3px, -3px);
+}
+
+/* ลูกศร */
+.arrow {
+    margin-left: 12px;
+}
+
+
+
+
+.chakra-petch-light {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.chakra-petch-regular {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.chakra-petch-medium {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.chakra-petch-semibold {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.chakra-petch-bold {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.chakra-petch-light-italic {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.chakra-petch-regular-italic {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.chakra-petch-medium-italic {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.chakra-petch-semibold-italic {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.chakra-petch-bold-italic {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}

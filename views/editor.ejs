@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor - Code Odyssey</title>
+  <link rel="stylesheet" href="/css/editor.css">
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+  <style>
+    .pixel-modal {
+    background: #222;
+    padding: 50px; /* เพิ่ม Padding ให้ดูมีพื้นที่หายใจ */
+    border: 6px solid #fff; 
+    
+    width: 90%; 
+    max-width: 850px; /* ปรับความกว้างให้เท่าหน้าชอปปิ้งเพื่อให้ดูคุ้นตา */
+    
+    height: auto;
+    max-height: 90vh; 
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* ✅ จัดลูกๆ ทุกคนให้อยู่กึ่งกลางแนวนอน */
+    justify-content: center; /* ✅ จัดลูกๆ ทุกคนให้อยู่กึ่งกลางแนวตั้ง */
+    
+    text-align: center;
+    box-shadow: 12px 12px 0px #000; 
+    font-family: 'Noto Sans Thai', sans-serif;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#modal-title { 
+    font-size: 26px; 
+    margin-bottom: 25px; 
+    color: #ffcc00; 
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+}
+
+#modal-message { 
+    font-size: 24px; /* ขนาดตัวอักษรให้อ่านง่าย */
+    margin-bottom: 40px; 
+    color: #fff; 
+    line-height: 1.6;
+    
+    /* ✅ จัดข้อความให้อยู่กึ่งกลางพอดีตัว */
+    text-align: center; 
+    width: 100%;
+    max-width: 700px; /* บีบข้อความไม่ให้แผ่จนติดขอบเกินไปจะดูสวยกว่า */
+    
+    overflow-y: auto; /* ถ้าโชคร้ายยาวเกิน 90vh จริงๆ ให้ Scroll ได้กันระบบพัง */
+}
+
+#modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* ปรับปุ่มให้ใหญ่และกดง่ายแบบ Pixel Art */
+#modal-buttons button {
+    background: #ffcc00;
+    border: 6px solid #8b6d00;
+    padding: 15px 40px; 
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px; 
+    cursor: pointer;
+    box-shadow: 6px 6px 0 #000;
+    color: #000;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+#modal-buttons button:hover {
+    transform: scale(1.1);
+    background: #00ff00;
+    border-color: #008800;
+}
+
+#modal-buttons button:active {
+    box-shadow: 0 0 0 #000;
+    transform: translate(6px, 6px);
+}
+  </style>
+</head>
+<body>
+
+<div class="editor-container">
+  <div class="code-output-split" style="position: relative;"> 
+    
+    <button id="hintBtn" class="wooden-hint-btn">
+      <span class="hint-text" id="hintBtnText">
+        <% if (typeof isHintUnlocked !== 'undefined' && isHintUnlocked) { %>
+          ดูคำใบ้
+        <% } else { %>
+          คำใบ้ (-50)
+        <% } %>
+      </span>
+    </button>
+
+    <div id="editor"></div>
+
+    <div class="output-console">
+      <pre id="output-area">// Output</pre>
+    </div>
+
+    <div class="in-editor-controls">
+      <div class="btn-run-text" id="runBtn">RUN</div>
+      <button class="btn-send" id="submitBtn">SEND</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /** * ✅ การส่งข้อมูลไปยัง Client-side:
+   * - window.QUEST: เก็บข้อมูลเควสปัจจุบันทั้งหมด
+   * - window.IS_HINT_UNLOCKED: สถานะการปลดล็อกคำใบ้จาก Database
+   */
+  window.QUEST = <%- JSON.stringify(quest) %>;
+  window.IS_HINT_UNLOCKED = <%= (typeof isHintUnlocked !== 'undefined' && isHintUnlocked) ? 'true' : 'false' %>;
+</script>
+
+<div id="custom-alert" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#333; color:white; padding:20px; border:4px solid #ffcc00; z-index:1000; text-align:center; font-family:'Press Start 2P';">
+    <p id="alert-msg"></p>
+    <button onclick="closeAlert()" style="background:#ffcc00; border:none; padding:10px 20px; cursor:pointer; color: #000; font-weight: bold;">OK</button>
+</div>
+
+<script>
+/**
+ * ฟังก์ชันสำหรับโชว์ข้อความแจ้งเตือน (รวมถึงคำใบ้)
+ */
+function showAlert(msg, callback) {
+    document.getElementById('alert-msg').innerText = msg;
+    document.getElementById('custom-alert').style.display = 'block';
+    window.closeAlert = () => {
+        document.getElementById('custom-alert').style.display = 'none';
+        if(callback) callback();
+    };
+}
+</script>
+
+<script src="/js/editor.js"></script>
+
+<div id="custom-modal-overlay" class="pixel-modal-overlay">
+    <div class="pixel-modal">
+        <h2 id="modal-title">SYSTEM MESSAGE</h2>
+        <p id="modal-message"></p>
+        <div id="modal-buttons"></div>
+    </div>
+</div>
+
+</body>
+</html>

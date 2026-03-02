@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Odyssey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Sing Up</h1>
+
+        
+<% if (errors && errors.length) { %>
+  <% errors.forEach(e => { %>
+    <p style="color:red"><%= e %></p>
+  <% }) %>
+<% } %>
+
+        <form action="/user/register" method="POST">
+            <div class="input-group">
+    <label>Email</label>
+    <div class="input-wrapper">
+        <input type="email" name="email" placeholder="email" required>
+        <i class="fa-regular fa-envelope"></i>
+    </div>
+</div>
+
+<div class="input-group">
+    <label>Name</label>
+    <div class="input-wrapper">
+        <input type="text" name="username" placeholder="Name" required>
+        <i class="fa-solid fa-user"></i>
+    </div>
+</div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <input type="password" name="password" placeholder="password" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-main">Register</button>
+        </form>
+
+        <div class="footer-section">
+            <p>Already have an account? <br>
+               <a href="/login" class="register-link">Back to Login</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

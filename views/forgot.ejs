@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restore Access - Code Odyssey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>RESTORE</h1>
+        <p style="font-size: 0.6em; line-height: 2; margin-bottom: 30px; color: #fffa6e;">
+            ENTER YOUR EMAIL TO RECEIVE A RECOVERY CODE
+        </p>
+
+        <% if (error) { %>
+            <div style="color: #ff4444; font-size: 0.7em; margin-bottom: 20px;"><%= error %></div>
+        <% } %>
+
+        <form action="/user/forgot" method="POST">
+            <div class="input-group">
+                <label>EMAIL ADDRESS</label>
+                <div class="input-wrapper">
+                    <input type="email" name="email" placeholder="YOUR@EMAIL.COM" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-main">SEND CODE</button>
+        </form>
+
+        <div class="footer-section">
+            <a href="/login" class="register-link">BACK TO LOGIN</a>
+        </div>
+    </div>
+</body>
+</html>

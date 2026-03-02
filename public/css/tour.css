@@ -1,0 +1,157 @@
+/* ===============================
+    OVERLAY & BASIC TOOLTIP
+================================ */
+#tour-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: none;
+    background: rgba(0,0,0,0.75);
+}
+
+#tour-tooltip {
+    position: fixed;
+    z-index: 10005 !important;
+    display: none;
+    background: #242422;
+    color: #ffffff;
+    border: 4px solid #000;
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 #000;
+    padding: 22px 28px;
+    font-family: 'Chakra Petch', sans-serif;
+    
+    /* ใช้ Flex เพื่อวางข้อความซ้าย รูปขวา */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 650px; /* ขนาดมาตรฐานสำหรับพาร์ทแนะนำไอคอน */
+}
+
+/* ===============================
+    UI STRUCTURE (ข้อความซ้าย รูปขวา)
+================================ */
+#tour-content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+
+#tooltip-text {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+#tooltip-text strong {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-family: 'Press Start 2P', cursive;
+    color: #ffcc00;
+}
+
+/* รูปลิลลี่และชื่อ ( Lily Container ) */
+.lily-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 160px;
+    flex-shrink: 0;
+}
+
+.lily-img {
+    width: 150px;
+    height: 150px;
+    background: url('/NPC/friends/Lily.jpg') center/cover no-repeat;
+    border: 3px solid #000;
+    border-radius: 8px;
+}
+
+.lily-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+}
+
+/* ===============================
+    BUTTONS & ACTIONS
+================================ */
+.tooltip-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+#tour-next, #tour-skip {
+    padding: 8px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid #000;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0 #000;
+    transition: all 0.1s;
+}
+
+#tour-next { background: #6cc04a; color: #fff; }
+#tour-skip { background: #B22222; color: #fff; }
+
+#tour-next:active, #tour-skip:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #000;
+}
+
+/* ===============================
+    PART 1: CENTER INTRO (ลิลลี่แนะนำตัว)
+================================ */
+.tour-center {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    width: 800px !important; /* กว้างพิเศษสำหรับแนะนำตัว */
+    min-height: 280px;
+    padding: 40px !important;
+    box-shadow: 0 0 40px rgba(0,0,0,0.9) !important;
+}
+
+/* ✅ ย้ายปุ่มไปมุมขวาล่างในพาร์ทแนะนำตัว เพื่อไม่ให้ทับชื่อ Lily */
+.tour-center .tooltip-actions {
+    position: absolute;
+    bottom: 20px;
+    right: 25px;
+    margin-top: 0;
+}
+
+/* ขยายตัวหนังสือพาร์ทแนะนำตัว */
+.tour-center #tooltip-text {
+    font-size: 22px;
+}
+
+/* ===============================
+    PART 2: HIGHLIGHT TARGET (กรอบเหลือง)
+================================ */
+.tour-target {
+    position: relative;
+    z-index: 10000;
+    outline: 6px solid #ffcc00;
+    outline-offset: 6px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #ffcc00, 0 0 0 9999px rgba(0,0,0,0.7) !important;
+}
+
+/* ✅ ปรับตำแหน่งปุ่มไปไว้ซ้ายมือในพาร์ทแนะนำตัว (isIntro) */
+.tour-center .tooltip-actions {
+    position: absolute;
+    bottom: 20px;
+    left: 25px; /* เปลี่ยนจาก right เป็น left */
+    right: auto; /* เคลียร์ค่าเดิม */
+    margin-top: 0;
+}

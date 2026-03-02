@@ -1,0 +1,88 @@
+const shopData = {
+    icons: [
+        { id: 'Icon_07', name: 'Fairy cake', price: 80, img: '/img/sweet/ขนม1.PNG' },
+        { id: 'Icon_08', name: 'Baguette', price: 80, img: '/img/sweet/ขนม2.PNG' },
+        { id: 'Icon_09', name: 'pretzel', price: 80, img: '/img/sweet/ขนม3.PNG' },
+        { id: 'Icon_10', name: 'White Bread', price: 80, img: '/img/sweet/ขนม4.PNG' },
+        { id: 'Icon_11', name: 'Shio Pan', price: 80, img: '/img/sweet/ขนม5.PNG' },
+        { id: 'Icon_12', name: 'Chocolate Donut', price: 80, img: '/img/sweet/ขนม6.PNG' },
+
+        { id: 'Icon_13', name: 'Vintage Luggage', price: 80, img: '/img/plan/กระเป๋า.PNG' },
+        { id: 'Icon_14', name: 'Camera', price: 80, img: '/img/plan/กล้อง.PNG' },
+        { id: 'Icon_15', name: 'Compass', price: 80, img: '/img/plan/เข็มทิศ.PNG' },
+        { id: 'Icon_16', name: 'Airline Tickets', price: 80, img: '/img/plan/ตั๋วเครื่องบิน.PNG' },
+        { id: 'Icon_17', name: 'Polaroid Picture', price: 80, img: '/img/plan/โพลาลอย.PNG' },
+        { id: 'Icon_18', name: 'Desktop Globe', price: 80, img: '/img/plan/ลูกโลก.PNG' },
+
+        { id: 'Icon_01', name: 'FlowerYellow', price: 80, img: '/img/dino/ดอกไม้ (2).PNG' },
+        { id: 'Icon_02', name: 'FlowerBlue', price: 80, img: '/img/dino/ดอกไม้.PNG' },
+        { id: 'Icon_03', name: 'CreamFlower', price: 80, img: '/img/dino/ดอกไม้3.PNG' },
+        { id: 'Icon_04', name: 'FlowerGreen', price: 80, img: '/img/dino/ดอกไม้4.PNG' },
+        { id: 'Icon_05', name: 'FlowerPink', price: 80, img: '/img/dino/ดอกไม้5.PNG' },
+        { id: 'Icon_06', name: 'FlowerOrange', price: 80, img: '/img/dino/ดอกไม้6.PNG' },
+
+        { id: 'Icon_19', name: 'Frog', price: 80, img: '/img/bear/กบ.PNG' },
+        { id: 'Icon_20', name: 'Chicken', price: 80, img: '/img/bear/ไก่.PNG' },
+        { id: 'Icon_21', name: 'Sunflower', price: 80, img: '/img/bear/ทานตะวัน.PNG' },
+        { id: 'Icon_22', name: 'Honey', price: 80, img: '/img/bear/น้ำผึ้ง.PNG' },
+        { id: 'Icon_23', name: 'Honey', price: 80, img: '/img/bear/ผีเสื้อ.PNG' },
+        { id: 'Icon_24', name: 'Honey Bee', price: 80, img: '/img/bear/ผึ้ง.PNG' },
+
+        { id: 'Icon_25', name: 'Tomato', price: 80, img: '/img/cat/มะเขือเทศ.jpg' },
+        { id: 'Icon_26', name: 'Cat Yarn Ball', price: 80, img: '/img/cat/บอลแมว.png' },
+        { id: 'Icon_27', name: 'Catnip Fish', price: 80, img: '/img/cat/ปลา.png' },
+        { id: 'Icon_28', name: 'Good Cat', price: 80, img: '/img/cat/แมวดำ.png' },
+        { id: 'Icon_29', name: 'Mushroom Scratcher', price: 80, img: '/img/cat/เห็ด.png' },
+        { id: 'Icon_30', name: 'Paw Cat', price: 80, img: '/img/cat/อุ้งแมว.png' },
+
+        { id: 'Icon_31', name: 'Skull', price: 80, img: '/img/moon/กระโหลก.png' },
+        { id: 'Icon_32', name: 'Witch Bat', price: 80, img: '/img/moon/ค้างคาว.png' },
+        { id: 'Icon_33', name: 'Cute Ghost', price: 80, img: '/img/moon/ผี1.png' },
+        { id: 'Icon_34', name: 'Scary Ghosts.', price: 80, img: '/img/moon/ผี3.png' },
+        { id: 'Icon_35', name: 'Spider', price: 80, img: '/img/moon/แมงมุม.png' },
+        { id: 'Icon_36', name: 'Witch Hat', price: 80, img: '/img/moon/หมวก.png' },
+
+        { id: 'Icon_37', name: 'Green Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์เขียว.png' },
+        { id: 'Icon_38', name: 'Pink Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์ชมพู.png' },
+        { id: 'Icon_39', name: 'Red Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์แดง.png' },
+        { id: 'Icon_40', name: 'Purple Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์ม่วง.png' },
+        { id: 'Icon_41', name: 'Orange Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์ส้ม.png' },
+        { id: 'Icon_42', name: 'Yellow Clover Leaf', price: 80, img: '/img/duck/ใบโคลเวอร์เหลือง.png' },
+
+        { id: 'Icon_43', name: 'Gingerbread', price: 80, img: '/img/christmas/ขนมปังขิง.png' },
+        { id: 'Icon_44', name: 'Christmas Gift', price: 80, img: '/img/christmas/ของขวัญ.png' },
+        { id: 'Icon_45', name: 'Candy Cane', price: 80, img: '/img/christmas/แคนดี้คริสมาส.png' },
+        { id: 'Icon_46', name: 'Santa Claus', price: 80, img: '/img/christmas/แซนต้า.png' },
+        { id: 'Icon_47', name: 'Reindeer', price: 80, img: '/img/christmas/เรนเดียร์.png' },
+        { id: 'Icon_60', name: 'Mini Star', price: 80, img: '/img/christmas/ดาว.png' },
+
+        { id: 'Icon_48', name: 'Turtle', price: 80, img: '/img/water/เต่า.png' },
+        { id: 'Icon_49', name: 'Starfish', price: 80, img: '/img/water/ปลาดาว.png' },
+        { id: 'Icon_50', name: 'Crab', price: 80, img: '/img/water/ปู.png' },
+        { id: 'Icon_51', name: 'Seashell', price: 80, img: '/img/water/เปลือกหอย.png' },
+        { id: 'Icon_52', name: 'Whale', price: 80, img: '/img/water/วาฬ.png' },
+        { id: 'Icon_53', name: 'Squid', price: 80, img: '/img/water/หมึก.png' },
+
+        { id: 'Icon_54', name: 'Crescent Moon', price: 80, img: '/img/space/จันทร์เสี้ยว.png' },
+        { id: 'Icon_55', name: 'Full moon', price: 80, img: '/img/space/ดวงจันทร์.png' },
+        { id: 'Icon_56', name: 'Venus', price: 80, img: '/img/space/ดาวพุธ.png' },
+        { id: 'Icon_57', name: 'Saturn', price: 80, img: '/img/space/ดาวเสา.png' },
+        { id: 'Icon_58', name: 'Cute Sun', price: 80, img: '/img/space/อาทิตย์.png' },
+        { id: 'Icon_59', name: 'Earth', price: 80, img: '/img/space/โลก.png' },
+
+    ],
+    wallpapers: [
+        { id: 'wallpaper_02', name: 'Sweets Treats', price: 370, img: '/img/sweet/วอลเปเปอร์ขนม.PNG' },
+        { id: 'wallpaper_03', name: 'World Travel', price: 370, img: '/img/plan/วอลเปเปอร์เครื่องบิน.PNG' },
+        { id: 'wallpaper_01', name: 'Dino Flower', price: 370, img: '/img/dino/dinoFlowerwall.png' },
+        { id: 'wallpaper_04', name: 'Cute Bear', price: 370, img: '/img/bear/bearwall.png' },
+        { id: 'wallpaper_05', name: 'Cozy Cat', price: 370, img: '/img/cat/catwall.png' },
+        { id: 'wallpaper_06', name: 'Halloween', price: 370, img: '/img/moon/วอลเปเปอร์ดวงจันทร์.png' },
+        { id: 'wallpaper_07', name: 'Happy Duck', price: 370, img: '/img/duck/วอเปเปอร์เป็ด.png' },
+        { id: 'wallpaper_08', name: 'Christmas', price: 370, img: '/img/christmas/christmaswall.png' },
+        { id: 'wallpaper_09', name: 'Marine Life', price: 370, img: '/img/water/วอลเปเปอร์น้ำ.png' },
+        { id: 'wallpaper_10', name: 'Space Travel', price: 370, img: '/img/space/spacewall.png' },
+    ],
+};
+
+module.exports = shopData;

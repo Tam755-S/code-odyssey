@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Documents</title>
+    <link rel="stylesheet" href="/css/documents.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="quests-list">
+
+    <% if (quests.length === 0) { %>
+        <div class="empty-text">ไม่มีเอกสารที่ทำผิดพลาดในขณะนี้</div>
+    <% } else { %>
+        <% quests.forEach(q => { %>
+            <div class="quest-card failed">
+                <div class="quest-left">
+                    <div class="avatar-box">
+                        <img src="<%= q.image %>">
+                    </div>
+                    <div>
+                        <div class="sender">Sender : <%= q.sender %></div>
+                        <div class="subject" style="color: #ff8888;">[ REPAIR ] <%= q.subject %></div>
+                    </div>
+                </div>
+
+                <div class="quest-right">
+                    <div class="coin-box">
+                        <img src="/css/coin.png">
+                        <span><%= q.reward %></span>
+                    </div>
+
+                    <!-- ✅ เปลี่ยนจาก Retry → ดูรายละเอียดก่อน -->
+                    <a href="/quests/<%= q.id %>" class="btn-retry">
+                        ดูรายละเอียด
+                    </a>
+                </div>
+            </div>
+        <% }) %>
+    <% } %>
+
+</div>
+
+<%- include('music-player') %>
+</body>
+</html>

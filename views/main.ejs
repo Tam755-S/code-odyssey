@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Odyssey</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/tour.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Charm:wght@400;700&family=Noto+Sans+Thai+Looped:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    #popup-overlay { z-index: 10001 !important; } 
+    #popup-window { z-index: 10002 !important; }
+    #popup-header div { display: flex; gap: 15px; align-items: center; padding-right: 5px; }
+    #btn-max, #btn-close { cursor: pointer; transition: opacity 0.2s; }
+    #btn-max:hover, #btn-close:hover { opacity: 0.7; }
+    .icon-box span { color: #ffffff; text-shadow: 2px 2px 0px #000; font-weight: bold; }
+    .player-msg { align-self: flex-end; background: #E8D7C5 !important; margin-left: auto; border-radius: 15px 15px 2px 15px !important; color: #000; padding: 10px; margin-top: 5px; max-width: 80%; }
+    .npc-msg { align-self: flex-start; background: #FFF; border-radius: 15px 15px 15px 2px !important; color: #000; padding: 10px; margin-top: 5px; max-width: 80%; }
+    .typing-indicator { font-style: italic; color: #888; font-size: 14px; padding: 5px 15px; }
+    .quest-link-btn { display: block; margin: 10px auto; padding: 10px 20px; background: #7CA46C; color: white; border: none; border-radius: 20px; cursor: pointer; font-family: 'Chakra Petch'; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 90%; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="icon-box" onclick="openPage('/Helper', 'Helper')">
+        <img src="<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.helper : '/css/helper.PNG' %>" alt="Helper">
+        <span>Helper</span>
+      </div>
+      <div class="icon-box" onclick="openPage('/Learning', 'Learning')">
+        <img src="<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.learning : '/css/book.PNG' %>" alt="Learning">
+        <span>Learning</span>
+      </div>
+      <div class="icon-box" onclick="openPage('/Inbox', 'Inbox')">
+        <img src="<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.inbox : '/css/inbox.PNG' %>" alt="Inbox">
+        <span>Inbox</span>
+      </div>
+      <div class="icon-box" onclick="openChat()" style="position: relative; cursor: pointer;">
+    <img src="<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.company : '/css/company.PNG' %>" alt="Company Chat">
+    <span>Company Chat</span>
+    
+    <%
+let specialCount = 0;
+
+if (user && user.specialQuestData && Array.isArray(user.specialQuestData.quests)) {
+  specialCount = user.specialQuestData.quests.filter(q => q.hasNewMessage === true).length;
+}
+%>
+
+<% if (specialCount > 0) { %>
+  <div style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; min-width: 20px; height: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white; z-index: 20; font-family: 'Chakra Petch';">
+    <%= specialCount %>
+  </div>
+<% } %>
+</div>
+      <div class="icon-box" onclick="openPage('/documents', 'Documents')">
+        <img src="<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.documents : '/css/mistake.PNG' %>" alt="Documents">
+        <span>Documents</span>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const bgImage = "<%= (user && user.inventory && user.inventory.equipped) ? user.inventory.equipped.wallpaper : '/css/Main.png' %>";
+        document.body.style.backgroundImage = `url('${bgImage}')`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundAttachment = "fixed";
+      });
+    </script>
+
+    <div class="bottom-bar">
+        <div class="left-group">
+            <img id="timeIcon" class="icon" src="/css/sun.PNG">
+            <span id="clock" class="clock-text">00:00</span>
+            <div class="divider"></div>
+            <button class="icon-btn" onclick="openPage('/shop', 'Shop')"><img src="/css/shop.PNG" class="icon"></button>
+            <button class="icon-btn" onclick="openPage('/settings', 'Settings')"><img src="/css/set.PNG" class="icon"></button>
+        </div>
+        <div class="right-group">
+          <span id="coin-display" class="coin-number"><%= (user) ? user.money : 0 %></span>
+          <button class="icon-btn"><img src="/css/coin.PNG" class="icon"></button>
+        </div>
+    </div>
+  </div> 
+
+
+
+  <div id="popup-overlay"></div>
+  <div id="popup-window">
+    <div id="popup-header">
+      <span id="popup-title">Loading...</span>
+      <div><button id="btn-max">▢</button><button id="btn-close">✕</button></div>
+    </div>
+    <iframe id="popup-content"></iframe>
+  </div>
+
+  <div id="confirm-exit-modal" class="pixel-modal-overlay" style="display:none; z-index:20000; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+    <div class="pixel-modal" style="background:#222; border:6px solid #fff; padding:40px; max-width:600px; text-align:center; color:#fff; font-family:'Chakra Petch';">
+        <h2 style="color:#ffcc00; font-family:'Press Start 2P'; font-size:18px; margin-bottom:20px;">SYSTEM MESSAGE</h2>
+        <p id="exit-modal-msg" style="font-size:24px; margin-bottom:30px;">ภารกิจยังไม่สำเร็จ ท่านต้องการออกจากภารกิจใช่หรือไม่?</p>
+        <div style="display:flex; gap:20px; justify-content:center;">
+            <button id="confirm-yes" style="background:#ffcc00; border:none; padding:15px 30px; font-family:'Press Start 2P'; cursor:pointer; color:#000;">YES</button>
+            <button id="confirm-no" style="background:#ff4444; border:none; padding:15px 30px; font-family:'Press Start 2P'; color:#fff; cursor:pointer;">NO</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="chat-data-config" data-npcs='<%- typeof allNpcsJson !== "undefined" ? allNpcsJson : "[]" %>' style="display: none;"></div>
+  <%- include('company-chat') %>
+
+  <script>
+    // ✅ ตั้งตัวแปร Global
+    window.PLAYER_NAME = "<%= (user) ? user.username : 'Developer' %>";
+    const TOUR_STATUS = "<%= shouldStartTour %>";
+
+    function openPage(url, title) {
+        const iframe = document.getElementById('popup-content');
+        iframe.src = 'about:blank'; 
+        setTimeout(() => {
+            iframe.src = url;
+            document.getElementById('popup-title').innerText = title || 'Loading...';
+            document.getElementById('popup-overlay').style.display = 'block';
+            document.getElementById('popup-window').style.display = 'block';
+        }, 30);
+    }
+
+    document.getElementById('btn-close').onclick = function() {
+        const iframe = document.getElementById('popup-content');
+        let iframeUrl = "";
+        try { iframeUrl = iframe.contentWindow.location.href; } catch(e) { return closePopupWindow(); }
+        const isSpecial = iframeUrl.includes('/editor/special/');
+        const isNormal = (iframeUrl.includes('/editor/') || iframeUrl.includes('/quests/')) && !isSpecial;
+
+        if (isSpecial || isNormal) {
+            const modal = document.getElementById('confirm-exit-modal');
+            const modalMsg = document.getElementById('exit-modal-msg');
+            modalMsg.innerText = isSpecial ? "ภารกิจด่วนยังไม่สำเร็จ หากออกตอนนี้ภารกิจจะหายไปทันที ยืนยันหรือไม่?" : "ภารกิจยังไม่สำเร็จ ท่านต้องการพักเควสไว้ใน Documents หรือไม่?";
+            modal.style.display = 'flex';
+            document.getElementById('confirm-yes').onclick = async () => {
+                const questId = iframeUrl.split('/').pop().split('?')[0];
+                const route = isSpecial ? '/special-quest/abandon' : '/quests/move-to-document';
+                await fetch(route, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ questId: Number(questId) })});
+                modal.style.display = 'none';
+                closePopupWindow();
+                location.reload(); 
+            };
+            document.getElementById('confirm-no').onclick = () => { modal.style.display = 'none'; };
+        } else {
+            closePopupWindow();
+        }
+    };
+
+    function closePopupWindow() {
+        document.getElementById('popup-overlay').style.display = 'none';
+        document.getElementById('popup-window').style.display = 'none';
+        document.getElementById('popup-content').src = "about:blank";
+    }
+
+    // ✅ ฟังก์ชันเริ่มทัวร์ฉบับแก้บัค
+    function checkAndStartTour() {
+        if (TOUR_STATUS === "true") {
+            console.log("Tour status is TRUE, checking for startTour function...");
+            let checkCount = 0;
+            const tourInterval = setInterval(() => {
+                checkCount++;
+                if (typeof startTour === 'function') {
+                    console.log("Success: startTour function found! Launching...");
+                    startTour();
+                    clearInterval(tourInterval);
+                }
+                if (checkCount > 50) { 
+                    console.error("Timeout: startTour function not found after 5 seconds.");
+                    clearInterval(tourInterval); 
+                }
+            }, 100);
+        }
+    }
+
+    window.onload = () => {
+        checkAndStartTour();
+        const finalMoney = "<%= (user) ? user.money : 0 %>";
+        document.getElementById('coin-display').innerText = finalMoney;
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.data.type === 'updateMoney') {
+          document.getElementById('coin-display').innerText = event.data.newBalance;
+      }
+      if (event.data.type === 'closePopup') {
+          closePopupWindow();
+          location.reload();
+      }
+    });
+  </script>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/tour.js"></script> 
+  <%- include('music-player') %>
+</body>
+</html>

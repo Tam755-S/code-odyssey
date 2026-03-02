@@ -1,0 +1,294 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* หน้าพื้นหลัง */
+body {
+    width: 100vw;
+    height: 100vh;
+
+    /* ภาพพื้นหลังของคุณ */
+    background: url("/css/Main.png") center/cover no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Chakra Petch';
+    font-size: 50pm;
+}
+
+.container {
+    text-align: center;
+}
+
+.sidebar {
+    position: absolute;
+    left: 40px;
+    top: 40%;
+    transform: translateY(-50%);
+
+    display: grid;              /* เปลี่ยนจาก flex เป็น grid */
+    grid-template-columns: repeat(2, 100px); /* 2 คอลัมน์ ความกว้าง 60px ต่อไอคอน */
+    grid-auto-rows: 130px;       /* ความสูงของแต่ละไอคอน/แถว */
+    gap: 50px;                  /* ระยะห่างระหว่างไอคอน */
+}
+
+.icon-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.icon-box img {
+    width: 100px;
+    height: 100px;
+}
+
+.icon-box span {
+    color: white;
+    margin-top: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.icon-box:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* -------------------------------
+   Bottom bar
+---------------------------------*/
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    box-sizing: border-box;
+    z-index: 9999; /* กันไม่ให้โดนบัง */
+}
+
+.time-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 18px;
+}
+
+.time-box img {
+    width: 30px;
+    height: 30px;
+}
+
+.coin-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: gold;
+    font-size: 18px;
+}
+
+.coin-box img {
+    width: 25px;
+    height: 25px;
+}
+
+
+
+/* -------------------------------
+   Popup overlay
+---------------------------------*/
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.popup {
+    background: #1d1d1d;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    color: white;
+}
+
+.popup iframe {
+    width: 100%;
+    height: 350px;
+    border: none;
+    border-radius: 5px;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 10px;
+    right:35px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.icon-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0;
+    cursor: pointer;
+}
+
+
+/* แถบด้านบน */
+.top-bar {
+    width: 100%;
+    height: 90px;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    box-sizing: border-box;
+}
+
+.left-group,
+.right-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon {
+    height: 40px;
+}
+
+/* เส้นแบ่ง */
+.divider {
+    width: 2px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 8px;
+}
+
+.clock-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;;
+}
+
+.coin-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
+/* ไอคอนในเมนู */
+.icon-box {
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.icon-box img {
+  width: 80px;
+}
+
+/* พื้นหลังมืดตอนเปิดป๊อปอัพ */
+#popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 900;
+}
+
+/* ป๊อปอัพ */
+#popup-window {
+  display: none;
+  width: 800px;
+  height: 500px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  position: fixed;
+  top: 100px;
+  left: calc(50% - 400px);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* ส่วนหัวป๊อปอัพ (ลากได้) */
+#popup-header {
+  background: #222;
+  color: white;
+  padding: 10px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#popup-header button {
+  background: #444;
+  border: none;
+  color: white;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+/* เนื้อหา iframe */
+#popup-content {
+  width: 100%;
+  height: calc(100% - 40px);
+  border: none;
+}
+
+#popup-title {
+    font-size: 22px;   /* ปรับขนาดตามต้องการ */
+    font-family: 'Press Start 2P', monospace;
+    font-weight: bold; /* ทำให้หนาขึ้น (ถ้าต้องการ) */
+}
+
+#btn-max{
+    width: 34px;       /* กว้าง */
+    height: 34px;  
+}
+
+#btn-close{
+    width: 30px;
+    height: 33px;
+}
+
+
+/* คลาสที่คุมชื่อไอคอนใน Sidebar */
+.icon-box span {
+    color: #ffffff; /* สีเริ่มต้นเป็นขาว */
+    margin-top: 5px;
+    
+    /* ✨ เทคนิคที่ 1: ใส่ขอบฟุ้ง (Text Shadow) */
+    /* จะทำให้มีเงาสีดำจางๆ หนุนหลังตัวหนังสือตลอดเวลา แม้พื้นหลังขาวก็ยังอ่านออกจ้า */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), 
+                 0 0 5px rgba(0, 0, 0, 0.5);
+
+    /* ✨ เทคนิคที่ 2: ใส่ Contrast Filter (เลือกใช้อย่างใดอย่างหนึ่ง) */
+    /* backdrop-filter: contrast(150%) brightness(50%); */
+}

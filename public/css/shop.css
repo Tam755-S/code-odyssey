@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 40px 20px; /* ✅ เว้นระยะบนสุด-ล่างสุด 40px */
+    background: #f4f4f2;
+    font-family: 'Chakra Petch', 'Noto Sans Thai', sans-serif;
+    color: #333;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* --- Layout Container --- */
+.shop-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px; /* ✅ ขยายความกว้างสูงสุดให้รองรับ 5 คอลัมน์ */
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* --- Sidebar (ปรับขนาดตามหน้าจอ) --- */
+.shop-sidebar {
+    width: 180px; /* ✅ ขนาดเริ่มต้น */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: sticky;
+    top: 40px;
+    height: fit-content;
+    transition: width 0.3s ease;
+}
+
+.category-btn {
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px solid #888;
+    background: #bcbcbc;
+    color: white;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #666;
+    transition: all 0.2s;
+}
+
+.category-btn.active {
+    background: #7ca46c;
+    border-color: #5a7a4e;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #666;
+}
+
+/* --- Content & Grid --- */
+.shop-content {
+    flex: 1;
+}
+
+/* ✅ ค่าเริ่มต้นสำหรับหน้าต่างเล็ก (2 คอลัมน์ - ดูอ้วนขึ้น) */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+}
+
+/* --- Item Cards --- */
+.item-card {
+    background: #bcbcbc;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 6px 6px 0 #888;
+}
+
+.item-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.item-preview {
+    background: #eee;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+}
+
+/* ทรงจัตุรัสสำหรับ Icon */
+#icon-section .item-preview {
+    aspect-ratio: 1 / 1;
+}
+#icon-section .item-preview img {
+    max-width: 70%;
+    height: auto;
+}
+
+/* ทรง 16:9 สำหรับ Wallpaper */
+#wallpaper-section .item-preview {
+    aspect-ratio: 16 / 9;
+}
+#wallpaper-section .item-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-action {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    background: #7ca46c;
+    color: white;
+    box-shadow: 0 4px 0 #4a6341;
+}
+
+/* ------------------------------------------------------
+   ✅ โหมดขยายเต็มหน้าจอ (Desktop / Full Screen)
+--------------------------------------------------------- */
+@media (min-width: 1200px) {
+    /* ขยาย Sidebar ให้ใหญ่ขึ้น */
+    .shop-sidebar {
+        width: 250px;
+    }
+    
+    .category-btn {
+        font-size: 18px;
+        padding: 20px;
+    }
+
+    /* ขยาย Grid เป็น 5 คอลัมน์ และการ์ดใหญ่ขึ้น */
+    .item-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 25px;
+    }
+
+    .item-card {
+        padding: 25px;
+    }
+}
+
+/* ------------------------------------------------------
+   Modal (กะทัดรัด)
+--------------------------------------------------------- */
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 450px;
+    border: 6px solid #7ca46c;
+}

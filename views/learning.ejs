@@ -1,0 +1,368 @@
+<link rel="stylesheet" href="/css/learning.css">
+
+<div class="learning-layout">
+    
+    <div class="lesson-sidebar">
+        
+        <span class="lesson-header">Python</span>
+        <hr class="header-divider">
+        
+        <div class="lesson-group">
+            <span class="group-title active" onclick="scrollToSection('intro_python')">บทที่ 1: แนะนำเนื้อหา</span>
+            <ul class="lesson-list">
+                <li class="lesson-item active" onclick="scrollToSection('what_is_python')">1. Python คืออะไร?</li>
+                <li class="lesson-item" onclick="scrollToSection('what_can_python_do')">2. Python ทำอะไรได้บ้าง?</li>
+                <li class="lesson-item" onclick="scrollToSection('how_python_works')">3. Python ทำงานยังไง?</li>
+                <li class="lesson-item" onclick="scrollToSection('python_history')">4. Python เกิดขึ้นปีไหน?</li>
+            </ul>
+        </div>
+
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('vars_data_types')">บทที่ 2: ตัวแปรและชนิดข้อมูล</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('variables')">1. ตัวแปร (Variable)</li>
+                <li class="lesson-item" onclick="scrollToSection('naming_rules')">2. กฎการตั้งชื่อตัวแปร</li>
+                <li class="lesson-item" onclick="scrollToSection('data_types')">3. ชนิดข้อมูล (Data Types)</li>
+                <li class="lesson-item" onclick="scrollToSection('bool_list')">4. bool และ list (เพิ่มเติม)</li>
+            </ul>
+        </div>
+
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('io_comment')">บทที่ 3: การรับและแสดงผลข้อมูล</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('input_output')">1. อินพุต (Input) และ เอาต์พุต (Output)</li>
+                <li class="lesson-item" onclick="scrollToSection('print_comma')">2. ตัวคั่นข้อมูลใน print (,)</li>
+                <li class="lesson-item" onclick="scrollToSection('comment_hash')">3. Comment (#) หมายเหตุ</li>
+            </ul>
+        </div>
+
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('expressions')">บทที่ 4: การใช้นิพจน์</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('arithmetic_exp')">1. นิพจน์ทางคณิตศาสตร์</li>
+                <li class="lesson-item" onclick="scrollToSection('comparison_exp')">2. นิพจน์เปรียบเทียบ</li>
+                <li class="lesson-item" onclick="scrollToSection('logical_exp')">3. นิพจน์ตรรกะ</li>
+            </ul>
+        </div>
+
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('sequential')">บทที่ 5: การทำงานแบบลำดับ</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('top_to_bottom')">1. การดำเนินการจากบนลงล่าง</li>
+                <li class="lesson-item" onclick="scrollToSection('var_order')">2. การสร้างตัวแปรและการกำหนดค่า</li>
+                <li class="lesson-item" onclick="scrollToSection('function_order')">3. การใช้ฟังก์ชันในลำดับที่ถูกต้อง</li>
+            </ul>
+        </div>
+        
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('conditional')">บทที่ 6: การควบคุมแบบมีเงื่อนไข</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('if_one_way')">1. การเขียนโปรแกรมแบบ if (หนึ่งทางเลือก)</li>
+                <li class="lesson-item" onclick="scrollToSection('if_else_two_way')">2. สองทางเลือก if-else</li>
+                <li class="lesson-item" onclick="scrollToSection('if_elif_else_multi')">3. สามทางเลือก if-elif-else</li>
+            </ul>
+        </div>
+
+        <div class="lesson-group">
+            <span class="group-title" onclick="scrollToSection('looping')">บทที่ 7: การทำงานแบบทำซ้ำ</span>
+            <ul class="lesson-list">
+                <li class="lesson-item" onclick="scrollToSection('for_loop')">1. for loop (จำนวนรอบแน่นอน)</li>
+                <li class="lesson-item" onclick="scrollToSection('while_loop')">2. while loop (เงื่อนไขยังจริง)</li>
+                <li class="lesson-item" onclick="scrollToSection('break_continue')">3. คำสั่ง break และ continue</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="lesson-main">
+        
+        <h2 id="intro_python">บทที่ 1: แนะนำเนื้อหา</h2>
+
+        <h3 id="what_is_python">Python คืออะไร ?</h3>
+        <p><strong>Python</strong> เป็นภาษาโปรแกรมคอมพิวเตอร์ระดับสูงที่โดดเด่นในเรื่องของความ <strong>อ่านง่าย</strong> และการตัดความซับซ้อนของไวยากรณ์ออกไป ทำให้เป็น <strong>ภาษาสคริปต์</strong> ที่เรียนรู้และใช้งานง่าย เป็นภาษาที่ใช้ สื่อสารกับคอมพิวเตอร์ เพื่อสั่งงาน ไม่ว่าจะเป็นการ เก็บข้อมูล, ประมวลผล, หรือ คิดแทน เรา</p>
+
+        <h3 id="what_can_python_do">Python ทำอะไรได้บ้าง ?</h3>
+        <p>Python เป็นภาษาที่ใช้ในการเขียนโปรแกรม สามารถนำไปใช้ในการเขียนโปรแกรมได้หลากหลายประเภท เช่น เว็บแอปพลิเคชัน, การพัฒนาซอฟต์แวร์, วิทยาศาสตร์ข้อมูล, และ แมชชีนเลิร์นนิง</p>
+
+        <h3 id="how_python_works">Python ทำงานยังไง ?</h3>
+        <p>โปรแกรม Python ทำงานแบบ Interpreter คือ แปลชุดคำสั่งที่เราเขียนทีละบรรทัดแล้วป้อนเข้าสู่หน่วยประมวลผล ทำให้คอมพิวเตอร์ทำงานตามต้องการ</p>
+        <p><strong>Python เหมาะกับงานแบบไหนบ้าง ?</strong> Python นิยมใช้กับงาน Data Science, AI & Machine Learning, Web Development, Desktop Application, Network System, Games, Etc</p>
+
+        <h3 id="python_history">Python เกิดขึ้นปีไหน ? ใครคิดค้น ?</h3>
+        <p>Python เริ่มต้นขึ้นในเดือนธันวาคมปี 1989 และเผยแพร่ Python 1.0 เวอร์ชันแรกในปี 1994 โดยนาย Guido van Rossum นักโปรแกรมเมอร์ชาวดัตช์</p>
+
+        <h2 id="vars_data_types" class="mt-4">บทที่ 2: ตัวแปรและชนิดข้อมูล</h2>
+
+        <h3 id="variables">1. ตัวแปร (variable)</h3>
+        <p>ตัวแปร คือ ชื่อที่ใช้สำหรับอ้างอิงถึงค่าของข้อมูล ที่เก็บอยู่ในหน่วยความจำ และนำไปใช้ในในส่วนย่อยต่าง ๆ ของโปรแกรม</p>
+        
+        <h4>ตัวอย่าง การเก็บค่าข้อมูล</h4>
+        <div class="code-block single-line">
+            <div class="code-input">a = 1  # Integer<br>name = “maple” # String</div>
+            <div class="code-output">ชื่อตัวแปร a เก็บค่า 1<br>ชื่อตัวแปร name เก็บค่า "maple"</div>
+        </div>
+        
+        <h4>ตัวอย่างเปรียบเทียบการกำหนดค่า</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>การกำหนดค่า</th>
+                    <th>ความหมายใน Python</th>
+                    <th>ประเภทข้อมูล</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>animal = "ant"</code></td>
+                    <td>กำหนดให้ animal เก็บข้อความ "ant"</td>
+                    <td>String</td>
+                </tr>
+                <tr>
+                    <td><code>age = 25</code></td>
+                    <td>กำหนดให้ age เก็บค่าตัวเลข25</td>
+                    <td>Integer</td>
+                </tr>
+                <tr>
+                    <td><code>animal = ant</code></td>
+                    <td>เกิดข้อผิดพลาดหากไม่มีการกำหนดตัวแปร ant ไว้ก่อน</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="naming_rules">2. กฎการตั้งชื่อตัวแปร</h3>
+        <ul>
+            <li>ตัวอักษรตัวแรกต้องเป็น <strong>(a-z, A-Z) หรือ เครื่องหมาย Underscore ( _ ) เท่านั้น</strong> ห้ามขึ้นต้นด้วย ตัวเลข</li>
+            <li>ห้ามมีช่องว่าง และเครื่องหมายพิเศษทั้งหมด เช่น <code>!, @, #, $</code></li>
+            <li>ต้องไม่ซ้ำกับคำสงวน (Keyword) ของภาษา Python เช่น <code>if, for, while</code></li>
+            <li><strong>ความแตกต่างของตัวพิมพ์ (Case-sensitive):</strong> Python จะถือว่า <code>name</code> กับ <code>Name</code> เป็นตัวแปรคนละตัวกัน</li>
+        </ul>
+
+        <h3 id="data_types">3. ชนิดข้อมูลของตัวแปร (Data Types)</h3>
+        <p>ชนิดข้อมูลสำหรับการเขียนโปรแกรมเบื้องต้นมี 3 ชนิด คือ:</p>
+        
+        <h4>1. int (Integer) คือ จํานวนเต็ม</h4>
+        <p>ใช้เก็บ ตัวเลขจำนวนเต็ม (บวก, ลบ, หรือศูนย์)ต้องไม่มีทศนิยม เช่น <code>123, -345</code><br>วิธีเขียน: <code>int()</code></p>
+        
+        <h4>2. float (Floating-point number) จํานวนจริงหรือเลขทศนิยม</h4>
+        <p>ใช้เก็บ ตัวเลขที่มีจุดทศนิยม เช่น <code>0.789, 12.345</code><br>วิธีเขียน: <code>float()</code></p>
+
+        <h4>3. string คือ ข้อความ</h4>
+        <p>ใช้เก็บ ชุดของตัวอักขระ ที่อยู่ภายในเครื่องหมายคำพูด เช่น <code>"Hello World"</code><br>วิธีเขียน: <code>str()</code></p>
+        
+        <h3 id="bool_list">4. bool และ list (เพิ่มเติม)</h3>
+        
+        <h4>bool (boolean) ข้อมูลตรรกะ</h4>
+        <p>ใช้เก็บค่า ตรรกะ ซึ่งมีได้เพียง 2 ค่า คือ <strong>True</strong> หรือ <strong>False</strong> ใช้สำหรับการตัดสินใจและเงื่อนไขต่าง ๆ</p>
+        
+        <h4>list (List) รายการ/ลิสต์</h4>
+        <p>ใช้เก็บ กลุ่มของข้อมูล (Collection of data) โดยใช้เครื่องหมาย วงเล็บเหลี่ยม <code>[]</code> เช่น <code>[15, "orange", 3.14, True]</code></p>
+
+        <h2 id="io_comment" class="mt-4">บทที่ 3: การรับและแสดงผลข้อมูล</h2>
+
+        <h3 id="input_output">1. อินพุต (Input) และ เอาต์พุต (Output)</h3>
+        <p><strong>อินพุต (Input):</strong> รับค่าเข้ามาเพื่อนำไปใช้ในขณะที่โปรแกรมกำลังทำงาน โดยใช้ฟังก์ชัน <code>input()</code><br><strong>เอาต์พุต (Output):</strong> ผลลัพธ์ที่โปรแกรมส่งออกไปให้ผู้ใช้เห็น โดยใช้ฟังก์ชัน <code>print()</code></p>
+        
+        <h4>ตัวอย่าง: input กับ print</h4>
+        <div class="code-block">
+            <div class="code-input">
+                name = input("Enter your name:")<br>
+                print ("Hello,", name)
+            </div>
+            <div class="code-output">
+                Enter your name: Code Odyssey<br>
+                Hello, Code Odyssey
+            </div>
+        </div>
+        
+        <h4>ตัวอย่าง: int, input และ print</h4>
+        <div class="code-block">
+            <div class="code-input">
+                num1 = int(input("ใส่เลขตัวแรก: "))<br>
+                num2 = int(input("ใส่เลขตัวที่สอง: "))<br>
+                result = num1 + num2<br>
+                print("ผลรวมคือ:", result)
+            </div>
+            <div class="code-output">
+                ใส่เลขตัวแรก: 20<br>
+                ใส่เลขตัวที่สอง: 30<br>
+                ผลรวมคือ: 50
+            </div>
+        </div>
+
+        <h3 id="print_comma">2. ตัวคั่นข้อมูลใน print (,)</h3>
+        <p>เครื่องหมายจุลภาค <code>,</code> ภายในฟังก์ชัน <code>print()</code> ทำหน้าที่ <strong>ตัวคั่นข้อมูล</strong> และจะ <strong>แทรกช่องว่างอัตโนมัติ</strong> ระหว่างข้อมูลแต่ละส่วน</p>
+
+        <h3 id="comment_hash">3. Comment (#) หมายเหตุ</h3>
+        <p>โค้ดที่อยู่หลังเครื่องหมาย <code>#</code> จะ <strong>ถูกมองข้าม</strong> และไม่มีผลต่อการทำงานของโปรแกรม ใช้เพื่ออธิบายการทำงานของโค้ดในส่วนที่ซับซ้อน</p>
+
+        <h2 id="expressions" class="mt-4">บทที่ 4: การใช้นิพจน์</h2>
+
+        <h3 id="arithmetic_exp">1. นิพจน์ทางคณิตศาสตร์ (Arithmetic Expressions)</h3>
+        <p>นิพจน์ คือ ชุดของคำสั่งในภาษา Python ที่เมื่อประมวลผลแล้ว จะให้ผลลัพธ์กลับมาเพียง ค่าเดียว เสมอ</p>
+        
+        <h4>ตัวดำเนินการทางคณิตศาสตร์</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>ตัวดำเนินการ</th>
+                    <th>ความหมาย</th>
+                    <th>ผลลัพธ์ของ / และ //</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/</code></td><td>หาร</td><td>ผลลัพธ์เป็น float เสมอ (เช่น <code>10/2</code> คือ <code>5.0</code>)</td></tr>
+                <tr><td><code>//</code></td><td>หารปัดเศษทิ้ง</td><td>ผลลัพธ์เป็น int เสมอ (เช่น <code>10//3</code> คือ <code>3</code>)</td></tr>
+                <tr><td><code>%</code></td><td>หารเอาเศษ</td><td>-</td></tr>
+                <tr><td><code>**</code></td><td>ยกกำลัง</td><td>-</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="comparison_exp">2. นิพจน์เปรียบเทียบ (Comparison Expressions)</h3>
+        <p>ผลลัพธ์ที่ได้เป็นค่าบูลีน (True หรือ False) เท่านั้น</p>
+        
+        <table>
+            <thead>
+                <tr><th>ตัวดำเนินการ</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>==</code></td><td>เท่ากับ</td><td><code>x == y</code></td></tr>
+                <tr><td><code>!=</code></td><td>ไม่เท่ากับ</td><td><code>x != y</code></td></tr>
+                <tr><td><code>>=</code></td><td>มากกว่าหรือเท่ากับ</td><td><code>x >= y</code></td></tr>
+                <tr><td><code><=</code></td><td>น้อยกว่าหรือเท่ากับ</td><td><code>x <= y</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="logical_exp">3. นิพจน์ตรรกะ (Logical Expressions)</h3>
+        <p>ใช้สำหรับเชื่อมโยงนิพจน์บูลีนเข้าด้วยกัน (<code>and</code>, <code>or</code>, <code>not</code>)</p>
+        
+        <h4>ตัวอย่าง: and (และ)</h4>
+        <div class="code-block single-line">
+            <div class="code-input">
+                can_enter_lounge = True and False
+            </div>
+            <div class="code-output">
+                สามารถเข้า Lounge ได้: False
+            </div>
+        </div>
+
+        <h4>ตัวอย่าง: or (หรือ)</h4>
+        <div class="code-block single-line">
+            <div class="code-input">
+                can_pay = True or False
+            </div>
+            <div class="code-output">
+                สามารถชำระเงินได้ (can_pay): True
+            </div>
+        </div>
+
+        <h2 id="sequential" class="mt-4">บทที่ 5: การทำงานแบบลำดับ</h2>
+
+        <h3 id="top_to_bottom">1. การดำเนินการจากบนลงล่าง</h3>
+        <p>การทำงานแบบเรียงลำดับคือ การดำเนินการคำสั่งจากบนลงล่างและซ้ายไปขวาตามลำดับ โดยไม่มีการข้ามหรือวนซ้ำ</p>
+
+        <h3 id="var_order">2. การสร้างตัวแปรและการกำหนดค่า</h3>
+        <p>การทำงานแบบลำดับมีความสำคัญมาก เพราะค่าของตัวแปรในบรรทัดล่าสุดจะ ทับค่าเดิม เสมอ</p>
+
+        <h3 id="function_order">3. การใช้ฟังก์ชันในลำดับที่ถูกต้อง</h3>
+        <p>ต้องนิยาม (สร้าง) ฟังก์ชันให้เสร็จก่อนด้วยคำสั่ง <code>def</code> จึงจะเรียกใช้งานฟังก์ชันนั้นได้ในบรรทัดถัดไป</p>
+        
+        <h4>ตัวอย่างโค้ดที่ผิด (ใช้งานไม่ได้)</h4>
+        <div class="code-block">
+            <div class="code-input">
+                say_hello() # เรียกก่อนนิยาม<br>
+                def say_hello():<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("Hello!")
+            </div>
+            <div class="code-output">
+                NameError: name 'say_hello' is not defined
+            </div>
+        </div>
+
+        <h2 id="conditional" class="mt-4">บทที่ 6: การควบคุมแบบมีเงื่อนไข</h2>
+
+        <h3 id="if_one_way">1. การเขียนโปรแกรมแบบ if (หนึ่งทางเลือก)</h3>
+        <p>คำสั่ง <code>if</code> ใช้ในการตรวจว่าเงื่อนไขเป็นจริงหรือไม่ Python อาศัยการ <strong>เยื้อง (Indentation)</strong> เพื่อกำหนดขอบเขตของโค้ด</p>
+        
+        <h3 id="if_else_two_way">2. สองทางเลือก if-else</h3>
+        <p><code>if</code> ทำงานเมื่อเงื่อนไขเป็น จริง ส่วน <code>else</code> ทำงานเมื่อเงื่อนไขเป็น เท็จ</p>
+        
+        <h4>ตัวอย่าง if-else</h4>
+        <div class="code-block">
+            <div class="code-input">
+                age = 15<br>
+                if age >= 18:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("เข้าได้")<br>
+                else:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("อายุไม่ถึง")
+            </div>
+            <div class="code-output">
+                อายุไม่ถึง
+            </div>
+        </div>
+
+        <h3 id="if_elif_else_multi">3. สามทางเลือก if-elif-else</h3>
+        <p>ใช้เมื่อมี หลายตัวเลือก โปรแกรมจะตรวจเงื่อนไขทีละข้อจากบนลงล่าง เมื่อเจอข้อที่ “จริง” ข้อแรก จะทำงานเฉพาะส่วนนั้นและไม่ตรวจต่อ</p>
+        
+        <h4>ตัวอย่าง if-elif-else</h4>
+        <div class="code-block">
+            <div class="code-input">
+                score = 72<br>
+                if score >= 80:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("เกรด A")<br>
+                elif score >= 70:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("เกรด B")<br>
+                else:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print("เกรด C")
+            </div>
+            <div class="code-output">
+                เกรด B
+            </div>
+        </div>
+
+        <h2 id="looping" class="mt-4">บทที่ 7: การทำงานแบบทำซ้ำ</h2>
+
+        <h3 id="for_loop">1. for loop (จำนวนรอบแน่นอน)</h3>
+        <p>ใช้ควบคุมการทำงานซ้ำๆ ใน จำนวนรอบที่แน่นอน โครงสร้าง: <code>for i in range(n):</code></p>
+        
+        <h4>ตัวอย่าง for loop กับ List</h4>
+        <div class="code-block">
+            <div class="code-input">
+                fruits = ["apple", "banana"]<br>
+                for x in fruits : <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print(x)
+            </div>
+            <div class="code-output">
+                apple<br>
+                banana
+            </div>
+        </div>
+
+        <h3 id="while_loop">2. while loop (เงื่อนไขยังจริง)</h3>
+        <p>โปรแกรมทำงานซ้ำไปเรื่อย ๆ ตราบใดที่ เงื่อนไขยังเป็นจริง (True)</p>
+        
+        <h3 id="break_continue">3. คำสั่ง break และ continue</h3>
+        <ul>
+            <li><code>break</code>: ใช้สำหรับหยุดการทำงานของ loop ในทันที</li>
+            <li><code>continue</code>: ใช้สำหรับ ข้ามการทำงาน ในรอบปัจจุบัน ไปเริ่มทำงานในรอบใหม่ทันที</li>
+        </ul>
+        
+        <h4>ตัวอย่างการใช้ continue</h4>
+        <div class="code-block single-line">
+            <div class="code-input">
+                for i in range(1, 6):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if i % 2 == 0: # ถ้าเป็นเลขคู่<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print(i)
+            </div>
+            <div class="code-output">
+                1<br>
+                3<br>
+                5
+            </div>
+        </div>
+        
+    </div>
+</div>
+<%- include('music-player') %>
+<script src="/js/learning.js"></script>

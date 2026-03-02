@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings & Profile</title>
+  <link rel="stylesheet" href="/css/settings.css">
+  <style>
+    /* สไตล์ตัวโหลดรูป */
+    .avatar-side { position: relative; cursor: pointer; }
+    .upload-loading {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.5); color: white;
+      padding: 5px 10px; border-radius: 20px; font-size: 12px; display: none;
+    }
+
+    /* ✅ สไตล์สำหรับหน้าสถิติการเรียนรู้ฉบับอัปเกรด */
+    .learning-stats-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      font-family: 'Chakra Petch', sans-serif;
+    }
+    .stats-main-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stats-main-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, #7CA46C, transparent);
+    }
+    
+    .type-stat-item {
+      background: #f8fbfa;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #edf2f0;
+      transition: transform 0.2s;
+    }
+    .type-stat-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .type-name { font-weight: 600; font-size: 15px; color: #444; }
+    .type-percent { font-weight: 700; font-size: 18px; }
+
+    .detail-row {
+      display: flex;
+      gap: 15px;
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    .detail-row b { color: #333; }
+
+    /* แถบความแม่นยำแบบใหม่ */
+    .accuracy-bar-container {
+      width: 100%;
+      background: #e9ecef;
+      height: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .accuracy-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .overall-accuracy {
+      background: #f0f7ff;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .evaluation-box {
+      margin-top: 10px;
+      padding: 15px;
+      background: #f0f9f1;
+      border-left: 5px solid #27ae60;
+      border-radius: 8px;
+    }
+    .evaluation-text { font-size: 15px; color: #1e6b3b; font-weight: 600; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <%- include('music-player') %>
+
+  <div class="settings-main-container">
+    
+    <% if (typeof isLoggedIn !== 'undefined' && isLoggedIn && typeof user !== 'undefined' && user) { %>
+      <% 
+        // 1. ตั้งค่ารูปใหม่ที่หนูต้องการให้เป็นค่าเริ่มต้น (เช็กชื่อไฟล์ให้เป๊ะนะจ๊ะ)
+        let defaultAvatar = "/NPC/friends/Unknow.jpg"; 
+        let finalAvatar = defaultAvatar; 
+
+        // 2. เช็กข้อมูลจากฐานข้อมูล
+        if (user.profileStats && user.profileStats.avatarUrl && user.profileStats.avatarUrl.trim() !== "") {
+            
+            // ✅ เงื่อนไขพิเศษ: ถ้าใน DB ยังเป็นชื่อไฟล์ "รูปเก่า" (เช่น avatar_old.jpg) 
+            // ให้มันข้ามไปใช้ defaultAvatar แทนจ้า
+            const oldAvatarPath = "/css/helper.PNG"; // <-- ใส่ชื่อไฟล์เก่าที่หนูไม่เอาแล้วที่นี่
+            
+            if (user.profileStats.avatarUrl !== oldAvatarPath) {
+                finalAvatar = user.profileStats.avatarUrl;
+            }
+        }
+      %>
+
+      <div class="profile-header-card">
+        <div class="avatar-side" onclick="document.getElementById('avatarInput').click()">
+          <img src="<%= finalAvatar %><%= finalAvatar.includes('base64') ? '' : '?v=' + Date.now() %>" 
+               id="currentAvatar" 
+               onerror="this.src='<%= defaultAvatar %>'">
+          
+          <div id="uploadStatus" class="upload-loading">กำลังอัปโหลด...</div>
+          <span class="edit-hint">คลิกเพื่อแก้ไขรูปภาพ</span>
+          <input type="file" id="avatarInput" style="display: none;" accept="image/*" onchange="uploadAvatar(this)">
+        </div>
+
+        <div class="info-side">
+          <h3><%= user.username %></h3>
+          <p><%= user.email %></p>
+        </div>
+
+        <button id="logout-btn" class="logout-btn-mini">logout</button>
+      </div>
+
+      <div class="learning-stats-card">
+        <div class="stats-main-title">🎯 วิเคราะห์การเรียนรู้สะสม</div>
+        
+        <% 
+          const typeLabels = [
+            { key: 'A', name: '🧠 ไวยากรณ์ (Syntax)', color: '#27ae60' },
+            { key: 'B', name: '🧩 ตรรกะ (Logic)', color: '#2980b9' },
+            { key: 'C', name: '🔢 การคำนวณ (Math)', color: '#f39c12' }
+          ];
+
+          let totalOk = 0;
+          let totalFail = 0;
+
+          typeLabels.forEach(type => {
+            let ok = (typeof stats !== 'undefined' && stats && stats[type.key]) ? stats[type.key].ok : 0;
+            let fail = (typeof stats !== 'undefined' && stats && stats[type.key]) ? stats[type.key].fail : 0;
+            
+            totalOk += ok;
+            totalFail += fail;
+            
+            let total = ok + fail;
+            let acc = total > 0 ? ((ok / total) * 100).toFixed(0) : 0;
+            let barStyle = `width: ${acc}%; background: ${type.color};`;
+            let textStyle = `color: ${type.color};`;
+        %>
+          <div class="type-stat-item">
+            <div class="stat-header">
+              <span class="type-name"><%= type.name %></span>
+              <span class="type-percent" style="<%= textStyle %>"><%= acc %>%</span>
+            </div>
+            
+            <div class="detail-row">
+              <span>ถูก: <b><%= ok %></b></span>
+              <span>ผิด: <b><%= fail %></b></span>
+              <span>พยายามทั้งหมด: <b><%= total %></b></span>
+            </div>
+
+            <div class="accuracy-bar-container">
+              <div class="accuracy-bar-fill" style="<%= barStyle %>"></div>
+            </div>
+          </div>
+        <% }); %>
+
+        <% 
+          let totalAttempts = totalOk + totalFail;
+          let accuracyRate = totalAttempts > 0 ? ((totalOk / totalAttempts) * 100).toFixed(0) : 0;
+        %>
+
+        <div class="overall-accuracy">
+          <span style="font-weight: 600; color: #555;">📊 ความแม่นยำโดยรวมทุกทักษะ</span>
+          <span style="font-size: 24px; font-weight: 800; color: #2c3e50;"><%= accuracyRate %>%</span>
+        </div>
+
+        <div class="evaluation-box">
+          <% 
+              let a = (user.skillStats && user.skillStats.completedA) ? user.skillStats.completedA : 0;
+              let b = (user.skillStats && user.skillStats.completedB) ? user.skillStats.completedB : 0;
+              let c = (user.skillStats && user.skillStats.completedC) ? user.skillStats.completedC : 0;
+              let summary = "เริ่มทำภารกิจปกติเพื่อวิเคราะห์ความถนัดของคุณ";
+
+              if (a > 0 || b > 0 || c > 0) {
+                if (a > b && a > c) summary = "🌟 คุณโดดเด่นด้าน 'ความจำและไวยากรณ์'";
+                else if (b > a && b > c) summary = "🧩 คุณถนัดด้าน 'ตรรกะและการวางแผน'";
+                else if (c > a && c > b) summary = "🔢 คุณเชี่ยวชาญด้าน 'การคำนวณและประมวลผล'";
+                else summary = "⚖️ คุณมีทักษะการเรียนรู้ที่สมดุลในทุกด้าน";
+              }
+              
+              let qualityFeedback = "";
+              if (totalAttempts > 0) {
+                if (accuracyRate >= 80) qualityFeedback = "<br><span style='font-size: 13px; font-weight: normal;'>✨ ความแม่นยำของคุณอยู่ในเกณฑ์ยอดเยี่ยม! รักษาความรอบคอบแบบนี้ต่อไปนะคะ</span>";
+                else if (accuracyRate < 50) qualityFeedback = "<br><span style='font-size: 13px; font-weight: normal;'>💡 ลองใช้เวลาทำความเข้าใจโจทย์เพิ่มอีกนิด จะช่วยให้ความแม่นยำสูงขึ้นได้ค่ะ</span>";
+              }
+          %>
+          <div style="font-size: 13px; color: #666; margin-bottom: 5px; font-weight: bold;">บทวิเคราะห์ความถนัด:</div>
+          <div class="evaluation-text"><%- summary %><%- qualityFeedback %></div>
+        </div>
+      </div>
+    <% } %> 
+
+    <div class="volume-card-full" style="margin-top: 15px;">
+      <div class="volume-control-row">
+        <span class="vol-icon">🔈</span>
+        <input type="range" id="volume" min="0" max="100">
+        <span id="volume-value">50%</span>
+      </div>
+    </div>
+
+  </div>
+
+<div id="pixel-modal-overlay" class="pixel-modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+    <div class="pixel-modal" style="background:#222; border:4px solid #fff; padding:30px; text-align:center; max-width:400px; width:90%; font-family:'Chakra Petch', sans-serif;">
+        <h2 id="modal-title" style="color:#ffcc00; font-family:'Press Start 2P'; font-size:14px; margin-bottom:20px;">SYSTEM</h2>
+        <div id="modal-message" style="color:#fff; font-size:16px; margin-bottom:30px;"></div>
+        <button onclick="closeSettingModal()" style="background:#ffcc00; border:none; padding:10px 20px; cursor:pointer; font-weight:bold;">รับทราบ</button>
+    </div>
+</div>
+
+<script>
+// --- ฟังก์ชันควบคุม Modal ---
+function showSettingModal(title, msg) {
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-message').innerHTML = msg;
+    document.getElementById('pixel-modal-overlay').style.display = 'flex';
+}
+
+function closeSettingModal() {
+    document.getElementById('pixel-modal-overlay').style.display = 'none';
+}
+
+// --- ฟังก์ชัน Upload รูปภาพ (ฉบับแก้ไข) ---
+async function uploadAvatar(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const avatarImg = document.getElementById('currentAvatar');
+    const statusLabel = document.getElementById('uploadStatus');
+
+    // ✅ 1. เช็กขนาดไฟล์ (เพิ่มเป็น 5MB เพื่อความยืดหยุ่น)
+    const maxSize = 5 * 1024 * 1024; 
+    if (file.size > maxSize) {
+        showSettingModal("⚠️ FILE TOO LARGE", "รูปภาพใหญ่เกินไปค่ะ <br>กรุณาเลือกรูปที่มีขนาดไม่เกิน 5MB นะจ๊ะ");
+        input.value = ""; 
+        return;
+    }
+
+    statusLabel.style.display = 'block';
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    
+    reader.onload = async () => {
+        const base64String = reader.result;
+        try {
+            // ✅ 2. ส่งข้อมูลไปที่ Server
+            const response = await fetch('/user/update-avatar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ avatarData: base64String })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // ✅ 3. อัปเดตรูปบนหน้าจอทันที (เปลี่ยนได้หลายรอบแน่นอน)
+                avatarImg.src = base64String;
+                
+                // อัปเดตรูปที่ Header (หน้าหลัก) ด้วย
+                if (window.parent && typeof window.parent.updateHeaderAvatar === 'function') {
+                    window.parent.updateHeaderAvatar(result.avatarUrl);
+                }
+                
+                showSettingModal("✅ SUCCESS", "เปลี่ยนรูปโปรไฟล์เรียบร้อยแล้วจ้า!");
+            } else {
+                // กรณี Server ปฏิเสธ (เช่น Payload Too Large)
+                showSettingModal("❌ ERROR", "บันทึกล้มเหลว: " + result.message);
+            }
+        } catch (err) {
+            console.error(err);
+            showSettingModal("CONNECTION ERROR", "ไม่สามารถบันทึกรูปได้เนื่องจากขนาดใหญ่เกินไป <br> กรุณาใช้รูปที่มีขนาดไม่เกิน 5MB");
+        } finally {
+            statusLabel.style.display = 'none';
+        }
+    };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const volumeSlider = document.getElementById('volume');
+  const volumeValue = document.getElementById('volume-value');
+  const bgm = window.bgmPlayer;
+  let savedVolume = localStorage.getItem('gameVolume') || 50;
+  volumeSlider.value = savedVolume;
+  volumeValue.textContent = savedVolume + '%';
+  if (bgm) bgm.volume = savedVolume / 100;
+  volumeSlider.addEventListener('input', () => {
+    const val = volumeSlider.value;
+    volumeValue.textContent = val + '%';
+    if (bgm) bgm.volume = val / 100;
+    localStorage.setItem('gameVolume', val);
+  });
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      fetch('/user/logout', { method: 'POST' }).then(res => {
+        if (res.ok) { parent.window.location.href = '/'; }
+      });
+    });
+  }
+});
+</script>
+</body>
+</html>

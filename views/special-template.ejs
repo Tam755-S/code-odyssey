@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent Mission: <%= quest.npcName %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Press+Start+2P&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    
+    <style>
+        /* 💻 Layout & Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background: #1a1a1a; 
+            font-family: 'Chakra Petch', sans-serif; 
+        }
+        
+        .mission-border {
+            position: fixed; 
+            inset: 0; 
+            border: 6px solid #ff4444; 
+            pointer-events: none; 
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        .mission-info-bar {
+            background: #2a2a2a; 
+            padding: 10px 20px; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid #444; 
+            color: #ffcc00;
+        }
+
+        .workspace { 
+            position: relative; 
+            display: flex; 
+            height: calc(100vh - 55px); 
+            width: 100%; 
+        }
+        
+        #editor { flex: 1; border-right: 1px solid #444; }
+        
+        .output-console { 
+            flex: 1; 
+            background: #000; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+        }
+
+        #output-area { 
+            flex: 1; 
+            white-space: pre-wrap; 
+            font-size: 15px; 
+            color: #00ff00; 
+            padding: 20px; 
+            overflow-y: auto; 
+            font-family: 'Courier New', monospace; 
+        }
+
+        .controls { 
+            background: rgba(40, 40, 40, 0.9);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #444;
+        }
+
+        .btn-run {
+            background: #444;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+        }
+
+        .btn-send { 
+            background: #32cd32; 
+            color: #000; 
+            border: none; 
+            padding: 10px 25px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            box-shadow: 3px 3px 0 #1f7f1f;
+            font-size: 16px;
+        }
+        
+        .wooden-hint-btn { 
+            background: #5d4037; 
+            border: 2px solid #3e2723; 
+            color: #fff; 
+            padding: 5px 12px; 
+            font-family: 'Chakra Petch'; 
+            font-size: 14px; 
+            cursor: pointer; 
+        }
+
+        /* 📦 Pixel Modal */
+        .pixel-modal-overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); 
+            z-index: 10000; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .pixel-modal {
+            background: #222; 
+            border: 4px solid #fff; 
+            padding: 30px;
+            max-width: 600px; 
+            width: 85%; 
+            text-align: center;
+            font-family: 'Noto Sans Thai', sans-serif;
+        }
+        #modal-title { font-family: 'Press Start 2P'; color: #ffcc00; font-size: 18px; margin-bottom: 20px; }
+        #modal-message { color: #fff; font-size: 20px; margin-bottom: 30px; }
+        .modal-btn { 
+            background: #ffcc00; 
+            border: none; 
+            padding: 12px 30px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            font-weight: bold;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mission-border"></div>
+
+    <div id="mission-config" 
+         data-time-limit="<%= quest.timeLimit %>" 
+         data-quest-id="<%= quest.id %>" 
+         data-starter-code="<%= quest.starterCode %>"
+         style="display: none;">
+    </div>
+
+    <div class="mission-info-bar">
+        <div>⏳ <span id="seconds">0</span>s</div>
+        <div style="font-size: 18px; font-weight: bold;"><%= quest.description %></div>
+        
+
+        <button class="wooden-hint-btn" id="hintBtn" onclick="askBuyHint()">
+            <% if (user && user.unlockedHints && user.unlockedHints.includes(quest.id)) { %>
+                ดูคำใบ้
+            <% } else { %>
+                ซื้อคำใบ้ (-50 ฿)
+            <% } %>
+        </button>
+    </div>
+
+    <div class="workspace">
+        <div id="editor"></div>
+        <div class="output-console">
+            <div id="output-area">// ระบบสแตนด์บาย...</div>
+            <div class="controls">
+                <button class="btn-run" id="runBtn">RUN CODE</button>
+                <button class="btn-send" onclick="askSubmit()">SEND MISSION</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="pixel-modal-overlay" class="pixel-modal-overlay">
+        <div class="pixel-modal">
+            <h2 id="modal-title">SYSTEM NOTIFICATION</h2>
+            <div id="modal-message"></div>
+            <div id="modal-buttons"></div>
+        </div>
+    </div>
+
+<script>
+    // 1. Monaco Editor Initialization
+    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
+    let editor;
+    const config = document.getElementById('mission-config').dataset;
+
+    require(['vs/editor/editor.main'], function () {
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            value: config.starterCode,
+            language: 'python', 
+            theme: 'vs-dark', 
+            automaticLayout: true, 
+            fontSize: 18,
+            minimap: { enabled: false }
+        });
+    });
+
+    // 2. Timer Logic (แก้ไขให้หยุดเด็ดขาด)
+    let timeLeft = parseInt(config.timeLimit);
+    const timerSpan = document.getElementById('seconds');
+    
+    const countdown = setInterval(() => {
+        timeLeft--;
+        if(timeLeft >= 0) timerSpan.innerText = timeLeft;
+        
+        if (timeLeft <= 10) timerSpan.style.color = '#ff4444';
+        
+        if (timeLeft <= 0) {
+            clearInterval(countdown); // 🛑 หยุดทันที
+            processSubmit(true); 
+        }
+    }, 1000);
+
+    // 3. ฟังก์ชันปิดหน้าจอ (กากบาท) - ล็อคสถานะ Failed
+    function askCloseEditor() {
+        showConfirm("⚠️ หากคุณออกตอนนี้ ภารกิจจะถือว่าล้มเหลวและไม่ได้รับรางวัลโบนัส! ยืนยันจะออกใช่ไหม?", () => {
+            processSubmit(true); // ✅ ส่งเป็น Timeout เพื่อให้ Controller ตั้งค่าเป็น failed
+        });
+    }
+
+    // 4. Run Code Logic
+    document.getElementById('runBtn').addEventListener('click', async () => {
+        const code = editor.getValue();
+        const outputArea = document.getElementById('output-area');
+        outputArea.innerText = "> กำลังประมวลผล...";
+        
+        try {
+            const res = await fetch('/editor/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code })
+            });
+            const data = await res.json();
+            outputArea.innerText = data.output || data.error || "> ไม่มีการแสดงผล";
+        } catch (e) {
+            outputArea.innerText = "> เกิดข้อผิดพลาดในการเชื่อมต่อระบบ";
+        }
+    });
+
+    // 5. Submission Logic
+    function askSubmit() {
+        showConfirm("⚠️ คำเตือน: เควสพิเศษส่งได้เพียงครั้งเดียวเท่านั้น! มั่นใจแล้วใช่ไหม?", () => {
+            processSubmit(false);
+        });
+    }
+
+    async function processSubmit(isTimeout = false) {
+    // 🛑 1. หยุดเวลาทันที (ป้องกันตัวเลขรันซ้อนหรือนับใหม่)
+    if (typeof countdown !== 'undefined') clearInterval(countdown); 
+
+    const code = editor.getValue();
+    
+    try {
+        const res = await fetch('/special-quest/check', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                questId: config.questId, 
+                code: code,
+                isTimeout: isTimeout 
+            })
+        });
+        
+        const data = await res.json();
+
+        // ✅ 2. กรณีเวลาหมด หรือ โดนสั่งปิดจากหน้า Main (isTimeout = true)
+        if (isTimeout) {
+            // ปรับหัวข้อ Modal ให้ดูดุขึ้น (Optional)
+            document.getElementById('modal-title').innerText = "MISSION FAILED";
+            document.getElementById('modal-title').style.color = "#ff4444"; 
+
+            // แสดง Modal แจ้งเตือนก่อนดีดกลับ
+            showModal("⏰ หมดเวลาแล้ว! ภารกิจไม่สำเร็จ <br>คุณจะไม่ได้รับรางวัลโบนัสในครั้งนี้", () => {
+                const targetUrl = data.redirectTo || '/main';
+                // ดีดกลับหน้าหลักผ่าน window.parent (เพราะอยู่ใน Iframe)
+                if (window.parent && window.parent !== window) {
+                    window.parent.location.href = targetUrl;
+                } else {
+                    window.location.href = targetUrl;
+                }
+            });
+            return; // จบการทำงานตรงนี้เลย
+        }
+
+        // ✅ 3. กรณีส่งงานปกติ (ปุ่ม SEND MISSION)
+        showModal(data.message, () => {
+            const targetUrl = data.redirectTo || '/main';
+            if (window.parent && window.parent !== window) {
+                window.parent.location.href = targetUrl;
+            } else {
+                window.location.href = targetUrl;
+            }
+        });
+
+    } catch (err) {
+        console.error("Submit Error:", err);
+        // ถ้า Error ให้รีบพากลับหน้าหลักเพื่อความปลอดภัย
+        window.parent.location.href = '/main';
+    }
+}
+
+    // 6. Hint Logic
+    function askBuyHint() {
+        const hintBtn = document.getElementById('hintBtn');
+        if (hintBtn && hintBtn.innerText.trim() === "ดูคำใบ้") {
+            showHintDirectly();
+        } else {
+            showConfirm("ยืนยันการซื้อคำใบ้ด้วยเงิน 50 เหรียญ หรือไม่", () => {
+                buyHint();
+            });
+        }
+    }
+
+    async function showHintDirectly() {
+        try {
+            const res = await fetch('/special-quest/buy-hint', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ questId: config.questId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showModal("💡 คำแนะนำ: " + data.hintText, null);
+            }
+        } catch (err) {
+            showModal("ไม่สามารถโหลดคำใบ้ได้", null);
+        }
+    }
+
+    async function buyHint() {
+        const res = await fetch('/special-quest/buy-hint', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ questId: config.questId })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            document.getElementById('hintBtn').innerText = "ดูคำใบ้";
+            showModal("💰 ซื้อสำเร็จ! <br>💡 คำแนะนำ: " + data.hintText, () => {
+                window.parent.postMessage({ type: 'updateMoney', newBalance: data.newBalance }, '*');
+            });
+        } else {
+            showModal(data.message || "ยอดเงินไม่เพียงพอ!", null);
+        }
+    }
+
+    // --- UI Utility Functions ---
+    function showModal(msg, callback) {
+        const overlay = document.getElementById('pixel-modal-overlay');
+        const btnArea = document.getElementById('modal-buttons');
+        document.getElementById('modal-message').innerHTML = msg;
+        btnArea.innerHTML = `<button class="modal-btn">รับทราบ</button>`;
+        overlay.style.display = 'flex';
+        btnArea.querySelector('button').onclick = () => {
+            overlay.style.display = 'none';
+            if(callback) callback();
+        };
+    }
+
+    function showConfirm(msg, yesCallback) {
+        const overlay = document.getElementById('pixel-modal-overlay');
+        const btnArea = document.getElementById('modal-buttons');
+        document.getElementById('modal-message').innerHTML = msg;
+        btnArea.innerHTML = `
+            <button class="modal-btn" style="background:#32cd32;">ยืนยัน</button>
+            <button class="modal-btn" style="background:#ff4444; color:white;">ยกเลิก</button>
+        `;
+        overlay.style.display = 'flex';
+        btnArea.querySelectorAll('button')[0].onclick = () => {
+            overlay.style.display = 'none';
+            yesCallback();
+        };
+        btnArea.querySelectorAll('button')[1].onclick = () => overlay.style.display = 'none';
+    }
+</script>
+</body>
+</html>

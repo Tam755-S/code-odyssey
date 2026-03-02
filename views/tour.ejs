@@ -1,0 +1,24 @@
+
+  <title>Tour</title>
+  <link rel="stylesheet" href="/css/tour.css">
+</head>
+<body>
+
+<div id="tour-overlay"></div>
+
+<div id="tour-tooltip">
+  <div id="tooltip-text"></div>
+  <div class="tooltip-actions">
+    <button id="tour-skip">Skip</button>
+    <button id="tour-next">Next</button>
+  </div>
+</div>
+
+<script>
+  window.IS_GUEST = isGuest ? 'true' : 'false'
+</script>
+
+<script src="/js/tour.js"></script>
+<%- include('music-player') %>
+</body>
+</html>

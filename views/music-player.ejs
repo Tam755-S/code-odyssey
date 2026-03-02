@@ -1,0 +1,22 @@
+<div id="music-player">
+  <audio id="bgm" loop autoplay>
+    <source src="/music/bgm.mp3.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<script>
+  const bgm = document.getElementById('bgm');
+
+  // โหลดค่าเสียงจาก localStorage หรือค่า default
+  const savedVolume = localStorage.getItem('gameVolume');
+  bgm.volume = savedVolume !== null ? savedVolume / 100 : 0.5;
+
+  // ให้เล่นเพลงต่อเนื่องข้ามหน้าโดยไม่รีเฟรช
+  if (!window.bgmPlayer) {
+    window.bgmPlayer = bgm;
+  } else {
+    const old = document.getElementById('bgm');
+    old.parentNode.replaceChild(window.bgmPlayer, old);
+  }
+</script>

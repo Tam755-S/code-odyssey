@@ -1,0 +1,225 @@
+<link rel="stylesheet" href="/css/chat.css" />
+
+<div class="chat-overlay" id="chatOverlay" style="display: none;">
+    <div class="chat-window">
+        <div class="chat-header">
+            <span class="header-title">Company Chat</span>
+            <button class="close-chat" id="closeChatBtn">✕</button>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-sidebar">
+                <% if (typeof npcList !== 'undefined' && npcList.length > 0) { %>
+                    <% npcList.forEach(npc => { %>
+                        <div class="npc-item js-npc-item" data-id="<%= npc.id %>">
+                            <div class="avatar-wrapper">
+                                <img src="<%= npc.avatar %>" alt="avatar">
+                                <% if (npc.hasNotif) { %>
+                                    <span class="notification-dot"></span>
+                                <% } %>
+                            </div>
+                            <div class="npc-preview">
+                                <div class="npc-name-row">
+                                    <span class="npc-name"><%= npc.npcName %></span>
+                                    <span class="chat-time"><%= npc.timeText %></span>
+                                </div>
+                                <span class="last-message"><%= npc.lastMsg %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div style="padding: 20px; text-align: center; color: #888;">ไม่มีรายชื่อผู้ติดต่อ</div>
+                <% } %>
+            </div>
+
+            <div class="chat-main" id="chatContent">
+                <div class="empty-chat-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #888; font-family: 'Chakra Petch';">
+                     <p>เลือกเพื่อนร่วมงานเพื่อดูรายละเอียดหรือเริ่มสนทนา</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chat-data-store" 
+     data-npcs='<%- typeof allNpcsJson !== "undefined" ? allNpcsJson : "[]" %>' 
+     data-user-status='<%- user && user.specialQuestData ? JSON.stringify(user.specialQuestData) : "{}" %>'
+     style="display: none;">
+</div>
+
+<script>
+/**
+ * 1. ฟังก์ชันระดับ Global
+ */
+function openChat() { 
+    const overlay = document.getElementById('chatOverlay');
+    if(!overlay) return;
+    overlay.style.display = 'flex'; 
+
+    const store = document.getElementById('chat-data-store').dataset;
+    const npcs = JSON.parse(store.npcs);
+
+    const activeNpc = npcs.find(n =>
+        n.hasQuest === true && (n.npcChatStatus === 'offered' || n.npcChatStatus === 'accepted')
+    );
+
+    if (activeNpc) {
+        renderChat(activeNpc, activeNpc.npcChatStatus);
+        const sidebarItem = document.querySelector(`.js-npc-item[data-id="${activeNpc.id}"]`);
+        if(sidebarItem) {
+            document.querySelectorAll('.js-npc-item').forEach(i => i.classList.remove('active-chat'));
+            sidebarItem.classList.add('active-chat');
+        }
+    } else {
+        renderFullProfile(npcs[0]);
+    }
+}
+
+function closeChat() { 
+    const overlay = document.getElementById('chatOverlay');
+    if(overlay) overlay.style.display = 'none'; 
+}
+
+// 🛠️ ส่วนที่ซ่อม: handleQuestAction ให้อัปเดตสถานะหน้าบ้านและแสดงข้อความ NPC
+async function handleQuestAction(action, questId) {
+    const isAccept = action === 'accept';
+    appendMessage(isAccept ? "ได้สิ! ส่งรายละเอียดมาเลย" : "ตอนนี้ยังไม่ค่อยว่างเลยจ้า", true);
+
+    const footer = document.getElementById('chatFooter');
+    if (footer) footer.innerHTML = '<div style="color:#888;">กำลังบันทึกสถานะ...</div>';
+
+    const msgList = document.getElementById('msgList');
+    const typing = document.createElement('div');
+    typing.className = 'msg-bubble npc-msg';
+    typing.innerText = '...กำลังพิมพ์';
+    msgList.appendChild(typing);
+    msgList.scrollTop = msgList.scrollHeight;
+
+    try {
+        const res = await fetch(`/special-quest/${action}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ questId })
+        });
+        
+        const data = await res.json();
+        if (typing) typing.remove();
+
+        if (data.success) {
+            // 🛑 [จุดซ่อมสำคัญ] อัปเดตข้อมูลใน JS หน้าบ้านทันทีเพื่อให้สถานะล็อค
+            const storeElement = document.getElementById('chat-data-store');
+            let npcs = JSON.parse(storeElement.dataset.npcs);
+            const targetNpc = npcs.find(n => n.id == questId || n.questId == questId);
+            
+            if (targetNpc) {
+                targetNpc.npcChatStatus = isAccept ? 'accepted' : 'rejected';
+                targetNpc.lastMsg = data.message; 
+                storeElement.dataset.npcs = JSON.stringify(npcs); // เซฟกลับลง Dataset
+            }
+
+            // แสดงข้อความตอบกลับจาก NPC
+            setTimeout(() => {
+                appendMessage(data.message);
+            }, 600);
+
+            // ✅ อัปเดต UI ทันทีตามสถานะใหม่
+            setTimeout(() => {
+                if (targetNpc) {
+                    renderChat(targetNpc, targetNpc.npcChatStatus);
+                }
+            }, 1200);
+        }
+    } catch (err) {
+        if (typing) typing.remove();
+        console.error(err);
+        appendMessage("ขออภัย ระบบขัดข้องชั่วคราว");
+        if (footer) footer.innerHTML = '';
+    }
+}
+
+function appendMessage(text, isPlayer = false) {
+    const msgList = document.getElementById('msgList');
+    if (!msgList) return;
+    const bubble = document.createElement('div');
+    bubble.className = `msg-bubble ${isPlayer ? 'player-msg' : 'npc-msg'}`;
+    bubble.innerText = text;
+    msgList.appendChild(bubble);
+    msgList.scrollTop = msgList.scrollHeight;
+}
+
+function renderChat(npc, chatStatus) {
+    const chatContent = document.getElementById('chatContent');
+    
+    let footerHTML = '';
+    if (chatStatus === 'accepted') {
+        footerHTML = `<button class="quest-link-btn" onclick="window.parent.openPage('/editor/special/${npc.questId}', 'ภารกิจด่วน')">📁 เข้าสู่หน้าจัดการระบบ</button>`;
+    } else if (chatStatus === 'offered') {
+        footerHTML = `
+            <button class="btn-accept" onclick="handleQuestAction('accept', ${npc.questId})">ตกลง</button>
+            <button class="btn-reject" onclick="handleQuestAction('reject', ${npc.questId})">ปฏิเสธ</button>`;
+    } else if (chatStatus === 'completed') {
+        footerHTML = `<div style="color:#27ae60; font-weight:bold; font-family:'Chakra Petch';">✅ ภารกิจสำเร็จ ขอบใจมากนะ!</div>`;
+    } else if (chatStatus === 'failed') {
+        footerHTML = `<div style="color:#e74c3c; font-weight:bold; font-family:'Chakra Petch';">❌ ภารกิจล้มเหลว (ปิดการเข้าถึง)</div>`;
+    } else if (chatStatus === 'rejected') {
+        footerHTML = `<div style="color:#888; font-family:'Chakra Petch';">คุณปฏิเสธภารกิจนี้ไปแล้ว</div>`;
+    } else {
+        footerHTML = `<div style="color:#888;">ไม่มีภารกิจในขณะนี้</div>`;
+    }
+
+    chatContent.innerHTML = `
+        <div class="chat-content" style="display: flex; flex-direction: column; height: 100%;">
+            <div class="chat-inner-header" style="padding: 15px 20px; border-bottom: 1px solid #DDD; display: flex; align-items: center; gap: 15px; background: #FFF;">
+                <img src="${npc.avatar}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                <div><b style="font-size: 18px;">${npc.npcName}</b><br><small style="color: #2ECC71;">● Online</small></div>
+            </div>
+            <div class="message-list" id="msgList" style="flex: 1; padding: 20px; overflow-y: auto; background: #F4F4F2; display: flex; flex-direction: column; gap: 12px;">
+                <div class="msg-bubble npc-msg">${npc.lastMsg}</div>
+            </div>
+            <div class="chat-footer" id="chatFooter" style="padding: 20px; background: #FFF; border-top: 1px solid #DDD; display: flex; justify-content: center; gap: 15px;">
+                ${footerHTML}
+            </div>
+        </div>`;
+}
+
+function renderFullProfile(npc) {
+    const chatContent = document.getElementById('chatContent');
+    chatContent.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; text-align: center; color: #888; background: #F4F4F2; padding: 20px;">
+            <div>
+                <img src="${npc.avatar}" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid #FFF; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; object-fit: cover;">
+                <h2 style="color: #333; margin: 0;">${npc.npcName}</h2>
+                <p>${npc.npcTag}</p>
+                <b>ไม่มีภารกิจใหม่ในขณะนี้</b>
+            </div>
+        </div>`;
+}
+
+/**
+ * 2. Event Listeners
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const storeElement = document.getElementById('chat-data-store');
+    
+    const closeBtn = document.getElementById('closeChatBtn');
+    if(closeBtn) closeBtn.onclick = closeChat;
+
+    document.querySelectorAll('.js-npc-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // ดึงข้อมูลสดจาก Dataset เผื่อมีการอัปเดตสถานะไปแล้ว
+            const npcs = JSON.parse(storeElement.dataset.npcs);
+            const npc = npcs.find(n => n.id == this.dataset.id);
+            if (!npc) return;
+
+            document.querySelectorAll('.js-npc-item').forEach(i => i.classList.remove('active-chat'));
+            this.classList.add('active-chat');
+
+            if (npc.hasQuest) {
+                renderChat(npc, npc.npcChatStatus);
+            } else {
+                renderFullProfile(npc);
+            }
+        });
+    });
+});
+</script>

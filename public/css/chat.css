@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap');
+
+/* --- Overlay & Window --- */
+.chat-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.chat-window {
+    width: 900px;
+    height: 550px;
+    background: #F4F4F2;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Chakra Petch', sans-serif;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* --- Header --- */
+.chat-header {
+    background: #333;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header-title { font-size: 24px; font-weight: bold; }
+.close-chat { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+
+/* --- Main Layout Container --- */
+.chat-container { 
+    display: flex; 
+    flex: 1; 
+    height: calc(100% - 48px);
+    position: relative; /* สร้าง context สำหรับลูกๆ */
+}
+
+/* --- Sidebar (ฝั่งซ้าย) - ตัวการที่ต้องทำให้กดได้ --- */
+.chat-sidebar { 
+    width: 300px; 
+    border-right: 1px solid #DDD; 
+    background: #FFF; 
+    overflow-y: auto; 
+    position: relative; 
+    z-index: 50; /* 🟢 ดันขึ้นมาให้สูงกว่าฝั่งขวาเพื่อกันการทับซ้อน */
+}
+
+.npc-item {
+    display: flex;
+    padding: 15px;
+    gap: 12px;
+    border-bottom: 1px solid #EEE;
+    cursor: pointer !important; /* 🟢 บังคับให้เป็นรูปมือ */
+    transition: background 0.2s;
+    pointer-events: auto !important; /* 🟢 บังคับให้รับแรงคลิก */
+}
+
+.npc-item:hover { background: #F9F9F9; }
+.active-chat { background: #F0F0F0; border-left: 5px solid #7CA46C; }
+
+/* --- Avatar & Notif --- */
+.avatar-wrapper { position: relative; width: 50px; height: 50px; flex-shrink: 0; }
+.avatar-wrapper img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
+
+.notif-dot {
+    position: absolute; 
+    top: -2px; 
+    right: -2px;
+    background: #FF0000; 
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px; 
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* --- NPC Info Preview --- */
+.npc-preview { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.npc-name { font-weight: bold; font-size: 16px; color: #333; }
+.last-message { 
+    color: #888; 
+    font-size: 13px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+/* --- Chat Main (ฝั่งขวา) --- */
+.chat-main { 
+    flex: 1; 
+    background: #F4F4F2; 
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    z-index: 10; /* 🔴 ให้ต่ำกว่า Sidebar */
+}
+
+.chat-inner-header {
+    padding: 15px 20px;
+    background: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #DDD;
+}
+
+.inner-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; }
+.inner-name { font-weight: bold; font-size: 18px; color: #222; }
+.status-online { color: #7CA46C; font-size: 12px; font-weight: bold; }
+
+/* --- Message Area --- */
+.message-list { 
+    flex: 1; 
+    padding: 20px; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.msg-bubble {
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 80%;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.npc-msg { background: #FFF; align-self: flex-start; border-bottom-left-radius: 4px; }
+.player-msg { background: #E8D7C5; align-self: flex-end; border-bottom-right-radius: 4px; color: #333; }
+
+/* --- Footer & Buttons --- */
+.chat-footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background: #FFF;
+    border-top: 1px solid #DDD;
+}
+
+.btn-accept { background: #7CA46C; color: white; padding: 10px 30px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; }
+.btn-reject { background: #E67E22; color: white; padding: 10px 30px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; }
+.quest-link-btn { background: #7CA46C; color: white; padding: 12px; border-radius: 8px; border: none; width: 100%; cursor: pointer; font-family: 'Chakra Petch'; font-weight: bold; }
+
+/* บับเบิลทั่วไป */
+.msg-bubble {
+    padding: 12px 18px;
+    font-size: 15px;
+    line-height: 1.4;
+    max-width: 80%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* 🟢 ฝั่ง NPC (ซ้าย) */
+.npc-msg {
+    align-self: flex-start;
+    background: #FFFFFF;
+    color: #333;
+    border-radius: 15px 15px 15px 2px;
+    border: 1px solid #EEE;
+}
+
+/* 🟠 ฝั่งผู้เล่น (ขวา) */
+.player-msg {
+    align-self: flex-end;
+    background: #E8D7C5;
+    color: #5D4037;
+    border-radius: 15px 15px 2px 15px;
+    font-weight: 500;
+}
+
+.chat-container {
+    display: flex;
+    height: calc(100% - 48px);
+    position: relative;
+}
+
+.chat-sidebar {
+    width: 300px;
+    z-index: 10; /* ให้ค่า z-index ต่ำกว่า */
+    border-right: 1px solid #DDD;
+}
+
+.chat-main {
+    flex: 1;
+    z-index: 20; /* ดันหน้าแชทขึ้นมาให้รับแรงคลิกได้เต็มๆ */
+}
+
+/* ปรับปุ่มให้ดูน่ากดขึ้น */
+.btn-accept, .btn-reject {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    transition: transform 0.1s;
+}
+
+.btn-accept:active, .btn-reject:active {
+    transform: scale(0.95);
+}
+
+.chat-container { display: flex; height: calc(100% - 48px); position: relative; }
+
+.chat-sidebar { 
+    width: 300px; 
+    border-right: 1px solid #DDD; 
+    background: #FFF; 
+    overflow-y: auto;
+    position: relative;
+    z-index: 5; /* ค่าต่ำเพื่อให้ Sidebar เป็นฐาน */
+}
+
+.chat-main { 
+    flex: 1; 
+    background: #F4F4F2; 
+    position: relative;
+    z-index: 1; /* ห้ามตั้งสูงกว่า Sidebar เพราะจะบังแรงคลิก */
+}
+
+.npc-item { 
+    cursor: pointer !important; 
+    pointer-events: auto !important; 
+    position: relative; 
+    z-index: 10; /* ดันตัว item ขึ้นมาให้รับ click ได้ชัวร์ */
+}
+
+/* ปุ่มและลูกโป่ง */
+.btn-accept, .btn-reject, .quest-link-btn { cursor: pointer !important; pointer-events: auto !important; }
