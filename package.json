@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js",
-  "test": "echo \"Error: no test specified\" && exit 1"
-
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@emailjs/nodejs": "^5.0.2",
+    "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^6.0.0",
