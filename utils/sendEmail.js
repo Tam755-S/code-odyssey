@@ -2,15 +2,17 @@ const nodemailer = require('nodemailer');
 
 module.exports = async (to, code) => {
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: "smtp-mail.outlook.com", // ✅ ใช้ตัวนี้แหละค่ะ ถูกต้องแล้ว!
+        port: 587,
+        secure: false, // Outlook ใช้ false สำหรับ Port 587
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS // รหัส 16 หลัก (ไม่มีช่องว่าง)
+            user: process.env.EMAIL_USER, // ต้องเป็นเมล @outlook ที่น้องสมัครใหม่
+            pass: process.env.EMAIL_PASS  // รหัส 16 หลักของ Outlook (ไม่มีช่องว่าง)
         },
-        // เพิ่มเวลาให้เครื่อง Render ได้หายใจ ไม่ตัดการเชื่อมต่อเร็วเกินไป
-        connectionTimeout: 20000, 
-        greetingTimeout: 20000,
-        socketTimeout: 20000
+        tls: {
+            ciphers: 'SSLv3',
+            rejectUnauthorized: false // ช่วยให้ Render ส่งผ่านด่านป้องกันได้ง่ายขึ้น
+        }
     });
 
     const mailOptions = {
