@@ -2,16 +2,15 @@ const nodemailer = require('nodemailer');
 
 module.exports = async (to, code) => {
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465, // เปลี่ยนท่อเป็น 465
-        secure: true, // 465 ต้องใช้ true เท่านั้น
+        service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS // รหัส 16 หลัก (ไม่มีช่องว่าง)
         },
-        tls: {
-            rejectUnauthorized: false // บังคับมุดผ่านกำแพงกั้น
-        }
+        // เพิ่มเวลาให้เครื่อง Render ได้หายใจ ไม่ตัดการเชื่อมต่อเร็วเกินไป
+        connectionTimeout: 20000, 
+        greetingTimeout: 20000,
+        socketTimeout: 20000
     });
 
     const mailOptions = {
