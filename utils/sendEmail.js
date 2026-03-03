@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 module.exports = async (to, code) => {
     const transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // ✅ ใช้ตัวนี้แหละค่ะ ถูกต้องแล้ว!
-        port: 587,
+        port: 2525,
         secure: false, // Outlook ใช้ false สำหรับ Port 587
         auth: {
             user: process.env.EMAIL_USER, // ต้องเป็นเมล @outlook ที่น้องสมัครใหม่
