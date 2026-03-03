@@ -2,17 +2,17 @@ const nodemailer = require('nodemailer');
 
 module.exports = async (to, code) => {
     const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // ใช้ false สำหรับ port 587
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-    tls: {
-        rejectUnauthorized: false // ช่วยให้ส่งผ่าน Server Cloud ได้ง่ายขึ้น
-    }
-});
+        host: 'smtp.gmail.com',
+        port: 465, // เปลี่ยนท่อเป็น 465
+        secure: true, // 465 ต้องใช้ true เท่านั้น
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS // รหัส 16 หลัก (ไม่มีช่องว่าง)
+        },
+        tls: {
+            rejectUnauthorized: false // บังคับมุดผ่านกำแพงกั้น
+        }
+    });
 
     const mailOptions = {
         from: `"Quest Game Support" <${process.env.EMAIL_USER}>`,
